@@ -135,7 +135,7 @@
     "vitepress": "1.0.0-alpha.26",
     "vitepress-plugin-mermaid": "2.0.8",
     "vitepress-plugin-search": "1.0.4-alpha.14",
-    "vitest": "0.24.3"
+    "vitest": "0.24.5"
   },
   "resolutions": {
     "d3": "7.6.1"
