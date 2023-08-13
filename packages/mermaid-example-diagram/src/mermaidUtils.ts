@@ -26,7 +26,7 @@ export const log: Record<keyof typeof LEVELS, typeof console.log> = {
 };
 
 export let setLogLevel: (level: keyof typeof LEVELS | number | string) => void;
-export let getConfig: () => object;
+export let getConfig: typeof import('mermaid')['default']['mermaidAPI']['getConfig'];
 export let sanitizeText: (str: string) => string;
 export let commonDb: () => object;
 export let setupGraphViewbox: (

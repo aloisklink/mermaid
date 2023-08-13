@@ -1,5 +1,3 @@
-import type { MermaidConfig } from 'mermaid';
-
 const warning = (s: string) => {
   // Todo remove debug code
   // eslint-disable-next-line no-console
@@ -27,7 +25,7 @@ export const log: Record<keyof typeof LEVELS, typeof console.log> = {
 };
 
 export let setLogLevel: (level: keyof typeof LEVELS | number | string) => void;
-export let getConfig: () => MermaidConfig;
+export let getConfig: typeof import('mermaid')['default']['mermaidAPI']['getConfig'];
 export let sanitizeText: (str: string) => string;
 // eslint-disable @typescript-eslint/no-explicit-any
 export let setupGraphViewbox: (

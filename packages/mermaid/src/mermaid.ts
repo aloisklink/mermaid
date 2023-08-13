@@ -27,7 +27,6 @@ export type {
   ParseOptions,
   UnknownDiagramError,
 };
-export type { MermaidConfig } from './config.type.js';
 
 export interface RunOptions {
   /**
