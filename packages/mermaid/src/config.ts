@@ -4,26 +4,35 @@ import theme from './themes/index.js';
 import config from './defaultConfig.js';
 import type { MermaidConfig } from './config.type.js';
 
+type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
+
+/**
+ * Optional configuration options that you can pass to mermaid.
+ *
+ * All values are optional
+ * (any values that can't be `undefined` will be replaced with a default value).
+ */
+export type MermaidConfigOptions = DeepPartial<MermaidConfig>;
+
 export const defaultConfig: MermaidConfig = Object.freeze(config);
 
 let siteConfig: MermaidConfig = assignWithDepth({}, defaultConfig);
-let configFromInitialize: MermaidConfig;
+let configFromInitialize: MermaidConfigOptions;
 let directives: any[] = [];
 let currentConfig: MermaidConfig = assignWithDepth({}, defaultConfig);
 
-export const updateCurrentConfig = (siteCfg: MermaidConfig, _directives: any[]) => {
+export const updateCurrentConfig = (siteCfg: MermaidConfigOptions, _directives: any[]) => {
   // start with config being the siteConfig
   let cfg: MermaidConfig = assignWithDepth({}, siteCfg);
   // let sCfg = assignWithDepth(defaultConfig, siteConfigDelta);
 
   // Join directives
-  let sumOfDirectives: MermaidConfig = {};
-  for (const d of _directives) {
+  const sumOfDirectives: MermaidConfig = _directives.reduce((sumOfDirectives, d) => {
     sanitize(d);
 
     // Apply the data from the directive where the the overrides the themeVariables
-    sumOfDirectives = assignWithDepth(sumOfDirectives, d);
-  }
+    return assignWithDepth(sumOfDirectives, d);
+  }, {});
 
   cfg = assignWithDepth(cfg, sumOfDirectives);
 
@@ -58,7 +67,7 @@ export const updateCurrentConfig = (siteCfg: MermaidConfig, _directives: any[]) 
  * @param conf - The base currentConfig to use as siteConfig
  * @returns The new siteConfig
  */
-export const setSiteConfig = (conf: MermaidConfig): MermaidConfig => {
+export const setSiteConfig = (conf: MermaidConfigOptions): MermaidConfig => {
   siteConfig = assignWithDepth({}, defaultConfig);
   siteConfig = assignWithDepth(siteConfig, conf);
 
@@ -72,11 +81,11 @@ export const setSiteConfig = (conf: MermaidConfig): MermaidConfig => {
   return siteConfig;
 };
 
-export const saveConfigFromInitialize = (conf: MermaidConfig): void => {
+export const saveConfigFromInitialize = (conf: MermaidConfigOptions): void => {
   configFromInitialize = assignWithDepth({}, conf);
 };
 
-export const updateSiteConfig = (conf: MermaidConfig): MermaidConfig => {
+export const updateSiteConfig = (conf: MermaidConfigOptions): MermaidConfig => {
   siteConfig = assignWithDepth(siteConfig, conf);
   updateCurrentConfig(siteConfig, directives);
 
@@ -110,7 +119,7 @@ export const getSiteConfig = (): MermaidConfig => {
  * @param conf - The potential currentConfig
  * @returns The currentConfig merged with the sanitized conf
  */
-export const setConfig = (conf: MermaidConfig): MermaidConfig => {
+export const setConfig = (conf: MermaidConfigOptions): MermaidConfig => {
   // sanitize(conf);
   // Object.keys(conf).forEach(key => {
   //   const manipulator = manipulators[key];
@@ -241,7 +250,7 @@ const issueWarning = (warning: ConfigWarningStrings) => {
   issuedWarnings[warning] = true;
 };
 
-const checkConfig = (config: MermaidConfig) => {
+const checkConfig = (config: MermaidConfigOptions) => {
   if (!config) {
     return;
   }

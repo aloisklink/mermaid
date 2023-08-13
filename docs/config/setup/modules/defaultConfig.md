@@ -20,7 +20,7 @@
 
 ### default
 
-• `Const` **default**: `Partial`<`MermaidConfig`>
+• `Const` **default**: `MermaidConfig`
 
 Default mermaid configuration options.
 

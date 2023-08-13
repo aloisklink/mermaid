@@ -33,8 +33,7 @@ vi.mock('./diagrams/state/stateRenderer-v2.js');
 
 // -------------------------------------
 
-import mermaid from './mermaid.js';
-import { MermaidConfig } from './config.type.js';
+import mermaid, { type MermaidConfigOptions } from './mermaid.js';
 
 import mermaidAPI, { removeExistingElements } from './mermaidAPI.js';
 import {
@@ -279,7 +278,7 @@ describe('mermaidAPI', () => {
   describe('createCssStyles', () => {
     const serif = 'serif';
     const sansSerif = 'sans-serif';
-    const mocked_config_with_htmlLabels: MermaidConfig = {
+    const mocked_config_with_htmlLabels: MermaidConfigOptions = {
       themeCSS: 'default',
       fontFamily: serif,
       altFontFamily: sansSerif,
@@ -365,7 +364,7 @@ describe('mermaidAPI', () => {
         }
 
         // common suite and tests to verify that the right styles are created with the right htmlElements
-        function expect_correct_styles_with_htmlElements(mocked_config: MermaidConfig) {
+        function expect_correct_styles_with_htmlElements(mocked_config: MermaidConfigOptions) {
           describe('creates styles for "> *" and  "span" elements', () => {
             const htmlElements = ['> *', 'span'];
 
@@ -387,7 +386,7 @@ describe('mermaidAPI', () => {
         });
 
         it('there are flowchart.htmlLabels in the configuration', () => {
-          const mocked_config_flowchart_htmlLabels: MermaidConfig = {
+          const mocked_config_flowchart_htmlLabels: MermaidConfigOptions = {
             themeCSS: 'default',
             fontFamily: 'serif',
             altFontFamily: 'sans-serif',

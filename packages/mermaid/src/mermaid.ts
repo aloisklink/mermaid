@@ -3,7 +3,7 @@
  * functionality and to render the diagrams to svg code!
  */
 import { dedent } from 'ts-dedent';
-import { MermaidConfig } from './config.type.js';
+import type { MermaidConfigOptions } from './config.js';
 import { log } from './logger.js';
 import utils from './utils.js';
 import { mermaidAPI, ParseOptions, RenderResult } from './mermaidAPI.js';
@@ -19,7 +19,7 @@ import { ExternalDiagramDefinition } from './diagram-api/types.js';
 import { UnknownDiagramError } from './errors.js';
 
 export type {
-  MermaidConfig,
+  MermaidConfigOptions,
   DetailedError,
   ExternalDiagramDefinition,
   ParseErrorFunction,
@@ -27,6 +27,7 @@ export type {
   ParseOptions,
   UnknownDiagramError,
 };
+export type { MermaidConfig } from './config.type.js';
 
 export interface RunOptions {
   /**
@@ -192,7 +193,7 @@ const runThrowsErrors = async function (
  * @param config - Configuration object for mermaid.
  */
 
-const initialize = function (config: MermaidConfig) {
+const initialize = function (config: MermaidConfigOptions) {
   mermaidAPI.initialize(config);
 };
 
@@ -211,7 +212,7 @@ const initialize = function (config: MermaidConfig) {
  * @param callback - Called once for each rendered diagram's id.
  */
 const init = async function (
-  config?: MermaidConfig,
+  config?: MermaidConfigOptions,
   nodes?: string | HTMLElement | NodeListOf<HTMLElement>,
   callback?: (id: string) => unknown
 ) {

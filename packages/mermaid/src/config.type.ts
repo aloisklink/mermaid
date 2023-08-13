@@ -76,13 +76,13 @@ export interface MermaidConfig {
    * See https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
    *
    */
-  fontFamily?: string;
+  fontFamily: string;
   altFontFamily?: string;
   /**
    * This option decides the amount of logging to be used by mermaid.
    *
    */
-  logLevel?:
+  logLevel:
     | number
     | string
     | 0
@@ -101,17 +101,17 @@ export interface MermaidConfig {
   /**
    * Level of trust for parsed diagram
    */
-  securityLevel?: string | 'strict' | 'loose' | 'antiscript' | 'sandbox' | undefined;
+  securityLevel: string | 'strict' | 'loose' | 'antiscript' | 'sandbox' | undefined;
   /**
    * Dictates whether mermaid starts on Page load
    */
-  startOnLoad?: boolean;
+  startOnLoad: boolean;
   /**
    * Controls whether or arrow markers in html code are absolute paths or anchors.
    * This matters if you are using base tag settings.
    *
    */
-  arrowMarkerAbsolute?: boolean;
+  arrowMarkerAbsolute: boolean;
   /**
    * This option controls which `currentConfig` keys are considered secure and
    * can only be changed via call to `mermaidAPI.initialize`.
@@ -140,21 +140,21 @@ export interface MermaidConfig {
    *
    */
   deterministicIDSeed?: string;
-  flowchart?: FlowchartDiagramConfig;
-  sequence?: SequenceDiagramConfig;
-  gantt?: GanttDiagramConfig;
-  journey?: JourneyDiagramConfig;
+  flowchart: FlowchartDiagramConfig;
+  sequence: SequenceDiagramConfig;
+  gantt: GanttDiagramConfig;
+  journey: JourneyDiagramConfig;
   timeline?: TimelineDiagramConfig;
-  class?: ClassDiagramConfig;
-  state?: StateDiagramConfig;
-  er?: ErDiagramConfig;
-  pie?: PieDiagramConfig;
-  quadrantChart?: QuadrantChartConfig;
-  requirement?: RequirementDiagramConfig;
-  mindmap?: MindmapDiagramConfig;
-  gitGraph?: GitGraphDiagramConfig;
-  c4?: C4DiagramConfig;
-  sankey?: SankeyDiagramConfig;
+  class: ClassDiagramConfig;
+  state: StateDiagramConfig;
+  er: ErDiagramConfig;
+  pie: PieDiagramConfig;
+  quadrantChart: QuadrantChartConfig;
+  requirement: RequirementDiagramConfig;
+  mindmap: MindmapDiagramConfig;
+  gitGraph: GitGraphDiagramConfig;
+  c4: C4DiagramConfig;
+  sankey: SankeyDiagramConfig;
   dompurifyConfig?: DOMPurifyConfiguration;
   wrap?: boolean;
   fontSize?: number;
@@ -184,41 +184,41 @@ export interface C4DiagramConfig extends BaseDiagramConfig {
    * Margin to the right and left of the c4 diagram, must be a positive value.
    *
    */
-  diagramMarginX?: number;
+  diagramMarginX: number;
   /**
    * Margin to the over and under the c4 diagram, must be a positive value.
    *
    */
-  diagramMarginY?: number;
+  diagramMarginY: number;
   /**
    * Margin between shapes
    */
-  c4ShapeMargin?: number;
+  c4ShapeMargin: number;
   /**
    * Padding between shapes
    */
-  c4ShapePadding?: number;
+  c4ShapePadding: number;
   /**
    * Width of person boxes
    */
-  width?: number;
+  width: number;
   /**
    * Height of person boxes
    */
-  height?: number;
+  height: number;
   /**
    * Margin around boxes
    */
-  boxMargin?: number;
+  boxMargin: number;
   /**
    * How many shapes to place in each row.
    */
-  c4ShapeInRow?: number;
+  c4ShapeInRow: number;
   nextLinePaddingX?: number;
   /**
    * How many boundaries to place in each row.
    */
-  c4BoundaryInRow?: number;
+  c4BoundaryInRow: number;
   /**
    * This sets the font size of Person shape for the diagram
    */
@@ -562,7 +562,7 @@ export interface GitGraphDiagramConfig extends BaseDiagramConfig {
   /**
    * Margin top for the text over the diagram
    */
-  titleTopMargin?: number;
+  titleTopMargin: number;
   diagramPadding?: number;
   nodeLabel?: NodeLabel;
   mainBranchName?: string;
@@ -611,8 +611,8 @@ export interface RequirementDiagramConfig extends BaseDiagramConfig {
  * via the `definition` "MindmapDiagramConfig".
  */
 export interface MindmapDiagramConfig extends BaseDiagramConfig {
-  padding?: number;
-  maxNodeWidth?: number;
+  padding: number;
+  maxNodeWidth: number;
 }
 /**
  * This interface was referenced by `MermaidConfig`'s JSON-Schema
@@ -633,75 +633,75 @@ export interface QuadrantChartConfig extends BaseDiagramConfig {
   /**
    * Width of the chart
    */
-  chartWidth?: number;
+  chartWidth: number;
   /**
    * Height of the chart
    */
-  chartHeight?: number;
+  chartHeight: number;
   /**
    * Chart title top and bottom padding
    */
-  titleFontSize?: number;
+  titleFontSize: number;
   /**
    * Padding around the quadrant square
    */
-  titlePadding?: number;
+  titlePadding: number;
   /**
    * quadrant title padding from top if the quadrant is rendered on top
    */
-  quadrantPadding?: number;
+  quadrantPadding: number;
   /**
    * Padding around x-axis labels
    */
-  xAxisLabelPadding?: number;
+  xAxisLabelPadding: number;
   /**
    * Padding around y-axis labels
    */
-  yAxisLabelPadding?: number;
+  yAxisLabelPadding: number;
   /**
    * x-axis label font size
    */
-  xAxisLabelFontSize?: number;
+  xAxisLabelFontSize: number;
   /**
    * y-axis label font size
    */
-  yAxisLabelFontSize?: number;
+  yAxisLabelFontSize: number;
   /**
    * quadrant title font size
    */
-  quadrantLabelFontSize?: number;
+  quadrantLabelFontSize: number;
   /**
    * quadrant title padding from top if the quadrant is rendered on top
    */
-  quadrantTextTopPadding?: number;
+  quadrantTextTopPadding: number;
   /**
    * padding between point and point label
    */
-  pointTextPadding?: number;
+  pointTextPadding: number;
   /**
    * point title font size
    */
-  pointLabelFontSize?: number;
+  pointLabelFontSize: number;
   /**
    * radius of the point to be drawn
    */
-  pointRadius?: number;
+  pointRadius: number;
   /**
    * position of x-axis labels
    */
-  xAxisPosition?: 'top' | 'bottom';
+  xAxisPosition: 'top' | 'bottom';
   /**
    * position of y-axis labels
    */
-  yAxisPosition?: 'left' | 'right';
+  yAxisPosition: 'left' | 'right';
   /**
    * stroke width of edges of the box that are inside the quadrant
    */
-  quadrantInternalBorderStrokeWidth?: number;
+  quadrantInternalBorderStrokeWidth: number;
   /**
    * stroke width of edges of the box that are outside the quadrant
    */
-  quadrantExternalBorderStrokeWidth?: number;
+  quadrantExternalBorderStrokeWidth: number;
 }
 /**
  * The object containing configurations specific for entity relationship diagrams
@@ -713,39 +713,39 @@ export interface ErDiagramConfig extends BaseDiagramConfig {
   /**
    * Margin top for the text over the diagram
    */
-  titleTopMargin?: number;
+  titleTopMargin: number;
   /**
    * The amount of padding around the diagram as a whole so that embedded
    * diagrams have margins, expressed in pixels.
    *
    */
-  diagramPadding?: number;
+  diagramPadding: number;
   /**
    * Directional bias for layout of entities
    */
-  layoutDirection?: string | 'TB' | 'BT' | 'LR' | 'RL';
+  layoutDirection: string | 'TB' | 'BT' | 'LR' | 'RL';
   /**
    * The minimum width of an entity box. Expressed in pixels.
    */
-  minEntityWidth?: number;
+  minEntityWidth: number;
   /**
    * The minimum height of an entity box. Expressed in pixels.
    */
-  minEntityHeight?: number;
+  minEntityHeight: number;
   /**
    * The minimum internal padding between text in an entity box and the enclosing box borders.
    * Expressed in pixels.
    *
    */
-  entityPadding?: number;
+  entityPadding: number;
   /**
    * Stroke color of box edges and lines.
    */
-  stroke?: string;
+  stroke: string;
   /**
    * Fill color of entity boxes
    */
-  fill?: string;
+  fill: string;
   /**
    * Font size (expressed as an integer representing a number of pixels)
    */
@@ -761,7 +761,7 @@ export interface StateDiagramConfig extends BaseDiagramConfig {
   /**
    * Margin top for the text over the diagram
    */
-  titleTopMargin?: number;
+  titleTopMargin: number;
   arrowMarkerAbsolute?: boolean;
   dividerMargin?: number;
   sizeUnit?: number;
@@ -788,7 +788,7 @@ export interface StateDiagramConfig extends BaseDiagramConfig {
    * Decides which rendering engine that is to be used for the rendering.
    *
    */
-  defaultRenderer?: string | 'dagre-d3' | 'dagre-wrapper' | 'elk';
+  defaultRenderer: string | 'dagre-d3' | 'dagre-wrapper' | 'elk';
 }
 /**
  * This interface was referenced by `MermaidConfig`'s JSON-Schema
@@ -798,7 +798,7 @@ export interface ClassDiagramConfig extends BaseDiagramConfig {
   /**
    * Margin top for the text over the diagram
    */
-  titleTopMargin?: number;
+  titleTopMargin: number;
   /**
    * Controls whether or arrow markers in html code are absolute paths or anchors.
    * This matters if you are using base tag settings.
@@ -812,7 +812,7 @@ export interface ClassDiagramConfig extends BaseDiagramConfig {
    * Decides which rendering engine that is to be used for the rendering.
    *
    */
-  defaultRenderer?: string | 'dagre-d3' | 'dagre-wrapper' | 'elk';
+  defaultRenderer: string | 'dagre-d3' | 'dagre-wrapper' | 'elk';
   nodeSpacing?: number;
   rankSpacing?: number;
   /**
@@ -835,51 +835,51 @@ export interface JourneyDiagramConfig extends BaseDiagramConfig {
    * Margin to the right and left of the c4 diagram, must be a positive value.
    *
    */
-  diagramMarginX?: number;
+  diagramMarginX: number;
   /**
    * Margin to the over and under the c4 diagram, must be a positive value.
    *
    */
-  diagramMarginY?: number;
+  diagramMarginY: number;
   /**
    * Margin between actors
    */
-  leftMargin?: number;
+  leftMargin: number;
   /**
    * Width of actor boxes
    */
-  width?: number;
+  width: number;
   /**
    * Height of actor boxes
    */
-  height?: number;
+  height: number;
   /**
    * Margin around loop boxes
    */
-  boxMargin?: number;
+  boxMargin: number;
   /**
    * Margin around the text in loop/alt/opt boxes
    */
-  boxTextMargin?: number;
+  boxTextMargin: number;
   /**
    * Margin around notes
    */
-  noteMargin?: number;
+  noteMargin: number;
   /**
    * Space between messages.
    */
-  messageMargin?: number;
+  messageMargin: number;
   /**
    * Multiline message alignment
    */
-  messageAlign?: string | 'left' | 'center' | 'right';
+  messageAlign: string | 'left' | 'center' | 'right';
   /**
    * Prolongs the edge of the diagram downwards.
    *
    * Depending on css styling this might need adjustment.
    *
    */
-  bottomMarginAdj?: number;
+  bottomMarginAdj: number;
   /**
    * Curved Arrows become Right Angles
    *
@@ -887,7 +887,7 @@ export interface JourneyDiagramConfig extends BaseDiagramConfig {
    * right angles, rather than as curves.
    *
    */
-  rightAngles?: boolean;
+  rightAngles: boolean;
   taskFontSize?: string | number;
   taskFontFamily?: string;
   taskMargin?: number;
@@ -913,52 +913,52 @@ export interface TimelineDiagramConfig extends BaseDiagramConfig {
    * Margin to the right and left of the c4 diagram, must be a positive value.
    *
    */
-  diagramMarginX?: number;
+  diagramMarginX: number;
   /**
    * Margin to the over and under the c4 diagram, must be a positive value.
    *
    */
-  diagramMarginY?: number;
+  diagramMarginY: number;
   /**
    * Margin between actors
    */
-  leftMargin?: number;
+  leftMargin: number;
   /**
    * Width of actor boxes
    */
-  width?: number;
+  width: number;
   /**
    * Height of actor boxes
    */
-  height?: number;
+  height: number;
   padding?: number;
   /**
    * Margin around loop boxes
    */
-  boxMargin?: number;
+  boxMargin: number;
   /**
    * Margin around the text in loop/alt/opt boxes
    */
-  boxTextMargin?: number;
+  boxTextMargin: number;
   /**
    * Margin around notes
    */
-  noteMargin?: number;
+  noteMargin: number;
   /**
    * Space between messages.
    */
-  messageMargin?: number;
+  messageMargin: number;
   /**
    * Multiline message alignment
    */
-  messageAlign?: string | 'left' | 'center' | 'right';
+  messageAlign: string | 'left' | 'center' | 'right';
   /**
    * Prolongs the edge of the diagram downwards.
    *
    * Depending on css styling this might need adjustment.
    *
    */
-  bottomMarginAdj?: number;
+  bottomMarginAdj: number;
   /**
    * Curved Arrows become Right Angles
    *
@@ -995,11 +995,11 @@ export interface GanttDiagramConfig extends BaseDiagramConfig {
   /**
    * Margin top for the text over the diagram
    */
-  titleTopMargin?: number;
+  titleTopMargin: number;
   /**
    * The height of the bars in the graph
    */
-  barHeight?: number;
+  barHeight: number;
   /**
    * The margin between the different activities in the gantt diagram
    */
@@ -1008,40 +1008,40 @@ export interface GanttDiagramConfig extends BaseDiagramConfig {
    * Margin between title and gantt diagram and between axis and gantt diagram.
    *
    */
-  topPadding?: number;
+  topPadding: number;
   /**
    * The space allocated for the section name to the right of the activities
    *
    */
-  rightPadding?: number;
+  rightPadding: number;
   /**
    * The space allocated for the section name to the left of the activities
    *
    */
-  leftPadding?: number;
+  leftPadding: number;
   /**
    * Vertical starting position of the grid lines
    */
-  gridLineStartPadding?: number;
+  gridLineStartPadding: number;
   /**
    * Font size
    */
-  fontSize?: number;
+  fontSize: number;
   /**
    * Font size for sections
    */
-  sectionFontSize?: string | number;
+  sectionFontSize: string | number;
   /**
    * The number of alternating section styles
    */
-  numberSectionStyles?: number;
+  numberSectionStyles: number;
   /**
    * Date/time format of the axis
    *
    * This might need adjustment to match your locale and preferences.
    *
    */
-  axisFormat?: string;
+  axisFormat: string;
   /**
    * axis ticks
    *
@@ -1057,7 +1057,7 @@ export interface GanttDiagramConfig extends BaseDiagramConfig {
    * When this flag is set, date labels will be added to the top of the chart
    *
    */
-  topAxis?: boolean;
+  topAxis: boolean;
   /**
    * Controls the display mode.
    *
@@ -1067,7 +1067,7 @@ export interface GanttDiagramConfig extends BaseDiagramConfig {
    * On which day a week-based interval should start
    *
    */
-  weekday?: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+  weekday: 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
 }
 /**
  * The object containing configurations specific for sequence diagrams
@@ -1081,64 +1081,64 @@ export interface SequenceDiagramConfig extends BaseDiagramConfig {
   /**
    * Width of the activation rect
    */
-  activationWidth?: number;
+  activationWidth: number;
   /**
    * Margin to the right and left of the sequence diagram
    */
-  diagramMarginX?: number;
+  diagramMarginX: number;
   /**
    * Margin to the over and under the sequence diagram
    */
-  diagramMarginY?: number;
+  diagramMarginY: number;
   /**
    * Margin between actors
    */
-  actorMargin?: number;
+  actorMargin: number;
   /**
    * Width of actor boxes
    */
-  width?: number;
+  width: number;
   /**
    * Height of actor boxes
    */
-  height?: number;
+  height: number;
   /**
    * Margin around loop boxes
    */
-  boxMargin?: number;
+  boxMargin: number;
   /**
    * Margin around the text in loop/alt/opt boxes
    */
-  boxTextMargin?: number;
+  boxTextMargin: number;
   /**
    * Margin around notes
    */
-  noteMargin?: number;
+  noteMargin: number;
   /**
    * Space between messages.
    */
-  messageMargin?: number;
+  messageMargin: number;
   /**
    * Multiline message alignment
    */
-  messageAlign?: string | 'left' | 'center' | 'right';
+  messageAlign: string | 'left' | 'center' | 'right';
   /**
    * Mirror actors under diagram
    *
    */
-  mirrorActors?: boolean;
+  mirrorActors: boolean;
   /**
    * forces actor popup menus to always be visible (to support E2E testing).
    *
    */
-  forceMenus?: boolean;
+  forceMenus: boolean;
   /**
    * Prolongs the edge of the diagram downwards.
    *
    * Depending on css styling this might need adjustment.
    *
    */
-  bottomMarginAdj?: number;
+  bottomMarginAdj: number;
   /**
    * Curved Arrows become Right Angles
    *
@@ -1146,51 +1146,51 @@ export interface SequenceDiagramConfig extends BaseDiagramConfig {
    * right angles, rather than as curves.
    *
    */
-  rightAngles?: boolean;
+  rightAngles: boolean;
   /**
    * This will show the node numbers
    */
-  showSequenceNumbers?: boolean;
+  showSequenceNumbers: boolean;
   /**
    * This sets the font size of the actor's description
    */
-  actorFontSize?: string | number;
+  actorFontSize: string | number;
   /**
    * This sets the font family of the actor's description
    */
-  actorFontFamily?: string;
+  actorFontFamily: string;
   /**
    * This sets the font weight of the actor's description
    */
-  actorFontWeight?: string | number;
+  actorFontWeight: string | number;
   /**
    * This sets the font size of actor-attached notes
    */
-  noteFontSize?: string | number;
+  noteFontSize: string | number;
   /**
    * This sets the font family of actor-attached notes
    */
-  noteFontFamily?: string;
+  noteFontFamily: string;
   /**
    * This sets the font weight of actor-attached notes
    */
-  noteFontWeight?: string | number;
+  noteFontWeight: string | number;
   /**
    * This sets the text alignment of actor-attached notes
    */
-  noteAlign?: string | 'left' | 'center' | 'right';
+  noteAlign: string | 'left' | 'center' | 'right';
   /**
    * This sets the font size of actor messages
    */
-  messageFontSize?: string | number;
+  messageFontSize: string | number;
   /**
    * This sets the font family of actor messages
    */
-  messageFontFamily?: string;
+  messageFontFamily: string;
   /**
    * This sets the font weight of actor messages
    */
-  messageFontWeight?: string | number;
+  messageFontWeight: string | number;
   /**
    * This sets the auto-wrap state for the diagram
    */
@@ -1221,19 +1221,19 @@ export interface FlowchartDiagramConfig extends BaseDiagramConfig {
   /**
    * Margin top for the text over the diagram
    */
-  titleTopMargin?: number;
+  titleTopMargin: number;
   arrowMarkerAbsolute?: boolean;
   /**
    * The amount of padding around the diagram as a whole so that embedded
    * diagrams have margins, expressed in pixels.
    *
    */
-  diagramPadding?: number;
+  diagramPadding: number;
   /**
    * Flag for setting whether or not a html tag should be used for rendering labels on the edges.
    *
    */
-  htmlLabels?: boolean;
+  htmlLabels: boolean;
   /**
    * Defines the spacing between nodes on the same level
    *
@@ -1241,7 +1241,7 @@ export interface FlowchartDiagramConfig extends BaseDiagramConfig {
    * and the vertical spacing for LR as well as RL graphs.
    *
    */
-  nodeSpacing?: number;
+  nodeSpacing: number;
   /**
    * Defines the spacing between nodes on different levels
    *
@@ -1249,12 +1249,12 @@ export interface FlowchartDiagramConfig extends BaseDiagramConfig {
    * and the vertical spacing for LR as well as RL graphs.
    *
    */
-  rankSpacing?: number;
+  rankSpacing: number;
   /**
    * Defines how mermaid renders curves for flowcharts.
    *
    */
-  curve?: string | 'basis' | 'linear' | 'cardinal';
+  curve: string | 'basis' | 'linear' | 'cardinal';
   /**
    * Represents the padding between the labels and the shape
    *
@@ -1266,7 +1266,7 @@ export interface FlowchartDiagramConfig extends BaseDiagramConfig {
    * Decides which rendering engine that is to be used for the rendering.
    *
    */
-  defaultRenderer?: string | 'dagre-d3' | 'dagre-wrapper' | 'elk';
+  defaultRenderer: string | 'dagre-d3' | 'dagre-wrapper' | 'elk';
   /**
    * Width of nodes where text is wrapped.
    *
@@ -1274,7 +1274,7 @@ export interface FlowchartDiagramConfig extends BaseDiagramConfig {
    * value sets the max width of a text before it continues on a new line.
    *
    */
-  wrappingWidth?: number;
+  wrappingWidth: number;
 }
 /**
  * The object containing configurations specific for sankey diagrams.

@@ -12,9 +12,6 @@ export const diagram = {
   renderer: flowRendererV2,
   styles: flowStyles,
   init: (cnf: MermaidConfig) => {
-    if (!cnf.flowchart) {
-      cnf.flowchart = {};
-    }
     // TODO, broken as of 2022-09-14 (13809b50251845475e6dca65cc395761be38fbd2)
     cnf.flowchart.arrowMarkerAbsolute = cnf.arrowMarkerAbsolute;
     flowRenderer.setConf(cnf.flowchart);

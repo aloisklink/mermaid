@@ -12,9 +12,6 @@ export const diagram = {
   renderer: flowRendererV2,
   styles: flowStyles,
   init: (cnf: MermaidConfig) => {
-    if (!cnf.flowchart) {
-      cnf.flowchart = {};
-    }
     cnf.flowchart.arrowMarkerAbsolute = cnf.arrowMarkerAbsolute;
     // flowchart-v2 uses dagre-wrapper, which doesn't have access to flowchart cnf
     setConfig({ flowchart: { arrowMarkerAbsolute: cnf.arrowMarkerAbsolute } });

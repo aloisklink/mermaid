@@ -131,23 +131,6 @@ async function generateTypescript(mermaidConfigSchema: JSONSchemaType<MermaidCon
   }
 
   /**
-   * For backwards compatibility with older Mermaid Typescript defs,
-   * we need to make all value optional instead of required.
-   *
-   * This is because the `MermaidConfig` type is used as an input, and everything is optional,
-   * since all the required values have default values.s
-   *
-   * In the future, we should make make the input to Mermaid `Partial<MermaidConfig>`.
-   *
-   * @todo TODO: Remove this function when Mermaid releases a new breaking change.
-   * @param schema - The input schema.
-   * @returns The schema with all required values removed.
-   */
-  function removeRequired(schema: JSONSchemaType<Record<string, any>>) {
-    return { ...schema, required: [] };
-  }
-
-  /**
    * This is a temporary hack to control the order the types are generated in.
    *
    * By default, json-schema-to-typescript outputs the $defs in the order they
@@ -193,11 +176,11 @@ async function generateTypescript(mermaidConfigSchema: JSONSchemaType<MermaidCon
 
   assert.ok(mermaidConfigSchema.$defs);
   const modifiedSchema = {
-    ...unrefSubschemas(removeRequired(mermaidConfigSchema)),
+    ...unrefSubschemas(mermaidConfigSchema),
 
     $defs: Object.fromEntries(
       Object.entries(mermaidConfigSchema.$defs).map(([key, subSchema]) => {
-        return [key, removeRequired(replaceAllOfWithExtends(subSchema))];
+        return [key, replaceAllOfWithExtends(subSchema)];
       })
     ),
   };

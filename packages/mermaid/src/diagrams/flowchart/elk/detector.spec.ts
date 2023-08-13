@@ -1,41 +1,60 @@
+import assignWithDepth from '../../../assignWithDepth.js';
+import { MermaidConfigOptions, defaultConfig } from '../../../config.js';
+import { MermaidConfig } from '../../../config.type.js';
 import plugin from './detector.js';
 import { describe, it } from 'vitest';
+
+function config(config: MermaidConfigOptions): MermaidConfig {
+  return assignWithDepth(assignWithDepth({}, defaultConfig), config);
+}
 
 const { detector } = plugin;
 
 describe('flowchart-elk detector', () => {
   it('should fail for dagre-d3', () => {
     expect(
-      detector('flowchart', {
-        flowchart: {
-          defaultRenderer: 'dagre-d3',
-        },
-      })
+      detector(
+        'flowchart',
+        config({
+          flowchart: {
+            defaultRenderer: 'dagre-d3',
+          },
+        })
+      )
     ).toBe(false);
   });
   it('should fail for dagre-wrapper', () => {
     expect(
-      detector('flowchart', {
-        flowchart: {
-          defaultRenderer: 'dagre-wrapper',
-        },
-      })
+      detector(
+        'flowchart',
+        config({
+          flowchart: {
+            defaultRenderer: 'dagre-wrapper',
+          },
+        })
+      )
     ).toBe(false);
   });
   it('should succeed for elk', () => {
     expect(
-      detector('flowchart', {
-        flowchart: {
-          defaultRenderer: 'elk',
-        },
-      })
+      detector(
+        'flowchart',
+        config({
+          flowchart: {
+            defaultRenderer: 'elk',
+          },
+        })
+      )
     ).toBe(true);
     expect(
-      detector('graph', {
-        flowchart: {
-          defaultRenderer: 'elk',
-        },
-      })
+      detector(
+        'graph',
+        config({
+          flowchart: {
+            defaultRenderer: 'elk',
+          },
+        })
+      )
     ).toBe(true);
   });
 
@@ -45,11 +64,14 @@ describe('flowchart-elk detector', () => {
 
   it('should not detect class with defaultRenderer set to elk', () => {
     expect(
-      detector('class', {
-        flowchart: {
-          defaultRenderer: 'elk',
-        },
-      })
+      detector(
+        'class',
+        config({
+          flowchart: {
+            defaultRenderer: 'elk',
+          },
+        })
+      )
     ).toBe(false);
   });
 });

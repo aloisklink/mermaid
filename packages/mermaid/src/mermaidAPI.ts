@@ -25,7 +25,7 @@ import getStyles from './styles.js';
 import theme from './themes/index.js';
 import utils, { directiveSanitizer } from './utils.js';
 import DOMPurify from 'dompurify';
-import { MermaidConfig } from './config.type.js';
+import type { MermaidConfigOptions } from './config.js';
 import { evaluate } from './diagrams/common/common.js';
 import isEmpty from 'lodash-es/isEmpty.js';
 import { setA11yDiagramInfo, addSVGa11yTitleDescription } from './accessibility.js';
@@ -182,7 +182,7 @@ export const cssImportantStyles = (
  * @returns  the string with all the user styles
  */
 export const createCssStyles = (
-  config: MermaidConfig,
+  config: MermaidConfigOptions,
   graphType: string,
   classDefs: Record<string, DiagramStyleClassDef> | null | undefined = {}
 ): string => {
@@ -230,7 +230,7 @@ export const createCssStyles = (
 };
 
 export const createUserStyles = (
-  config: MermaidConfig,
+  config: MermaidConfigOptions,
   graphType: string,
   classDefs: Record<string, DiagramStyleClassDef>,
   svgId: string
@@ -556,7 +556,7 @@ const render = async function (
 /**
  * @param  options - Initial Mermaid options
  */
-function initialize(options: MermaidConfig = {}) {
+function initialize(options: MermaidConfigOptions = {}) {
   // Handle legacy location of font-family configuration
   if (options?.fontFamily && !options.themeVariables?.fontFamily) {
     if (!options.themeVariables) {
