@@ -1,4 +1,4 @@
-import { createImperativeState, domain } from './imperativeState.js';
+import { ImperativeState, domain } from './imperativeState.js';
 
 describe('domain.optional', () => {
   it('should set undefined without args', () => {
@@ -18,14 +18,14 @@ describe('domain.identity', () => {
   });
 });
 
-describe('createImperativeState', () => {
+describe('ImperativeState', () => {
   it('should create state with values from initializer', () => {
     const baz = {
       flag: false,
     };
 
-    const state = createImperativeState(() => ({
-      foo: domain.optional<number>(),
+    const state = new ImperativeState(() => ({
+      foo: undefined as number | undefined,
       bar: domain.identity<string[]>([]),
       baz,
     }));
@@ -36,7 +36,7 @@ describe('createImperativeState', () => {
   });
 
   it('should update records', () => {
-    const state = createImperativeState(() => ({
+    const state = new ImperativeState(() => ({
       foo: domain.optional<number>(),
       bar: domain.identity<string[]>([]),
       baz: {
@@ -56,7 +56,7 @@ describe('createImperativeState', () => {
   });
 
   it('should reset records', () => {
-    const state = createImperativeState(() => ({
+    const state = new ImperativeState(() => ({
       foo: domain.optional<number>(),
       bar: domain.identity<string[]>([]),
       baz: {
