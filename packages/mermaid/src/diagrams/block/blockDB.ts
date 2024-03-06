@@ -1,4 +1,3 @@
-import clone from 'lodash-es/clone.js';
 import * as configApi from '../../config.js';
 import type { DiagramDB } from '../../diagram-api/types.js';
 import { log } from '../../logger.js';
@@ -140,8 +139,10 @@ const populateBlockDatabase = (_blockList: Block[] | Block[][], parent: Block): 
         // log.debug('abc95 space', block);
         const w = block.width || 1;
         for (let j = 0; j < w; j++) {
-          const newBlock = clone(block);
-          newBlock.id = newBlock.id + '-' + j;
+          const newBlock = {
+            ...block,
+            id: block.id + '-' + j,
+          };
           blockDatabase[newBlock.id] = newBlock;
           children.push(newBlock);
         }
