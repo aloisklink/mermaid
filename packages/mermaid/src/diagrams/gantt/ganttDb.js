@@ -27,7 +27,7 @@ let tickInterval = undefined;
 let todayMarker = '';
 let includes = [];
 let excludes = [];
-let links = {};
+let links = new Map();
 let sections = [];
 let tasks = [];
 let currentSection = '';
@@ -60,7 +60,7 @@ export const clear = function () {
   inclusiveEndDates = false;
   topAxis = false;
   lastOrder = 0;
-  links = {};
+  links = new Map();
   commonClear();
   weekday = 'sunday';
 };
@@ -635,7 +635,7 @@ export const setLink = function (ids, _linkStr) {
       pushFun(id, () => {
         window.open(linkStr, '_self');
       });
-      links[id] = linkStr;
+      links.set(id, linkStr);
     }
   });
   setClass(ids, 'clickable');

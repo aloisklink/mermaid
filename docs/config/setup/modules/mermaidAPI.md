@@ -96,7 +96,7 @@ mermaid.initialize(config);
 
 #### Defined in
 
-[mermaidAPI.ts:754](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L754)
+[mermaidAPI.ts:753](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L753)
 
 ## Functions
 
@@ -127,7 +127,7 @@ Return the last node appended
 
 #### Defined in
 
-[mermaidAPI.ts:406](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L406)
+[mermaidAPI.ts:405](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L405)
 
 ---
 
@@ -153,7 +153,7 @@ the cleaned up svgCode
 
 #### Defined in
 
-[mermaidAPI.ts:352](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L352)
+[mermaidAPI.ts:351](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L351)
 
 ---
 
@@ -165,10 +165,10 @@ Create the user styles
 
 #### Parameters
 
-| Name        | Type                                                                | Description                                                                                                               |
-| :---------- | :------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------ |
-| `config`    | `MermaidConfig`                                                     | configuration that has style and theme settings to use                                                                    |
-| `classDefs` | `undefined` \| `null` \| `Record`<`string`, `DiagramStyleClassDef`> | the classDefs in the diagram text. Might be null if none were defined. Usually is the result of a call to getClasses(...) |
+| Name        | Type                                                             | Description                                                                                                               |
+| :---------- | :--------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------ |
+| `config`    | `MermaidConfig`                                                  | configuration that has style and theme settings to use                                                                    |
+| `classDefs` | `undefined` \| `null` \| `Map`<`string`, `DiagramStyleClassDef`> | the classDefs in the diagram text. Might be null if none were defined. Usually is the result of a call to getClasses(...) |
 
 #### Returns
 
@@ -188,12 +188,12 @@ the string with all the user styles
 
 #### Parameters
 
-| Name        | Type                                                      |
-| :---------- | :-------------------------------------------------------- |
-| `config`    | `MermaidConfig`                                           |
-| `graphType` | `string`                                                  |
-| `classDefs` | `undefined` \| `Record`<`string`, `DiagramStyleClassDef`> |
-| `svgId`     | \`#${string}\`                                            |
+| Name        | Type                                                   |
+| :---------- | :----------------------------------------------------- |
+| `config`    | `MermaidConfig`                                        |
+| `graphType` | `string`                                               |
+| `classDefs` | `undefined` \| `Map`<`string`, `DiagramStyleClassDef`> |
+| `svgId`     | \`#${string}\`                                         |
 
 #### Returns
 
@@ -201,7 +201,7 @@ the string with all the user styles
 
 #### Defined in
 
-[mermaidAPI.ts:332](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L332)
+[mermaidAPI.ts:331](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L331)
 
 ---
 
@@ -254,7 +254,7 @@ Put the svgCode into an iFrame. Return the iFrame code
 
 #### Defined in
 
-[mermaidAPI.ts:383](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L383)
+[mermaidAPI.ts:382](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L382)
 
 ---
 
@@ -279,4 +279,4 @@ Remove any existing elements from the given document
 
 #### Defined in
 
-[mermaidAPI.ts:459](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L459)
+[mermaidAPI.ts:458](https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/mermaidAPI.ts#L458)

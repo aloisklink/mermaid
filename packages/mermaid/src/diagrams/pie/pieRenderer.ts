@@ -11,7 +11,7 @@ import { selectSvgElement } from '../../rendering-util/selectSvgElement.js';
 
 const createPieArcs = (sections: Sections): d3.PieArcDatum<D3Sections>[] => {
   // Compute the position of each group on the pie:
-  const pieData: D3Sections[] = Object.entries(sections)
+  const pieData: D3Sections[] = [...sections.entries()]
     .map((element: [string, number]): D3Sections => {
       return {
         label: element[0],
@@ -107,8 +107,8 @@ export const draw: DrawDefinition = (text, id, _version, diagObj) => {
     .attr('class', 'pieCircle');
 
   let sum = 0;
-  Object.keys(sections).forEach((key: string): void => {
-    sum += sections[key];
+  sections.forEach((section) => {
+    sum += section;
   });
   // Now add the percentage.
   // Use the centroid method to get the best coordinates.

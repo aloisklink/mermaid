@@ -151,7 +151,7 @@ export const cssImportantStyles = (
  */
 export const createCssStyles = (
   config: MermaidConfig,
-  classDefs: Record<string, DiagramStyleClassDef> | null | undefined = {}
+  classDefs: Map<string, DiagramStyleClassDef> | null | undefined = new Map()
 ): string => {
   const cssStyles = new CSSStyleSheet();
 
@@ -172,7 +172,7 @@ export const createCssStyles = (
   }
 
   // classDefs defined in the diagram text
-  if (!isEmpty(classDefs)) {
+  if (classDefs instanceof Map) {
     const htmlLabels = config.htmlLabels || config.flowchart?.htmlLabels; // TODO why specifically check the Flowchart diagram config?
 
     const cssHtmlElements = ['> *', 'span']; // TODO make a constant
@@ -181,8 +181,7 @@ export const createCssStyles = (
     const cssElements = htmlLabels ? cssHtmlElements : cssShapeElements;
 
     // create the CSS styles needed for each styleClass definition and css element
-    for (const classId in classDefs) {
-      const styleClassDef = classDefs[classId];
+    classDefs.forEach((styleClassDef) => {
       // create the css styles for each cssElement and the styles (only if there are styles)
       if (!isEmpty(styleClassDef.styles)) {
         cssElements.forEach((cssElement) => {
@@ -199,7 +198,7 @@ export const createCssStyles = (
           cssStyles.cssRules.length
         );
       }
-    }
+    });
   }
 
   let cssString = '';
@@ -332,7 +331,7 @@ const compileCSS = (namespace: `#${string}`, css: string) => {
 export const createUserStyles = (
   config: MermaidConfig,
   graphType: string,
-  classDefs: Record<string, DiagramStyleClassDef> | undefined,
+  classDefs: Map<string, DiagramStyleClassDef> | undefined,
   // CSS selector for the SVG element, e.g. `#idOfSvgElement`
   svgId: `#${string}`
 ): string => {
