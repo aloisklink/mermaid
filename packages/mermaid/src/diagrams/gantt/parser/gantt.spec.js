@@ -167,14 +167,14 @@ describe('when parsing a gantt diagram it', function () {
       tags +
       ', 2014-01-01, 2014-01-04';
 
-    const allowedTags = ['active', 'done', 'crit', 'milestone'];
+    const allowedTags = { active, done, crit, milestone };
 
     expect(parserFnConstructor(str)).not.toThrow();
 
     const tasks = parser.yy.getTasks();
 
-    allowedTags.forEach(function (t) {
-      if (eval(t)) {
+    Object.entries(allowedTags).forEach(function ([t, tagExpectedValue]) {
+      if (tagExpectedValue) {
         expect(tasks[0][t]).toBeTruthy();
       } else {
         expect(tasks[0][t]).toBeFalsy();
