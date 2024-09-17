@@ -62,6 +62,8 @@ export default tseslint.config(
     rules: {
       curly: 'error',
       'no-console': 'error',
+      'no-eval': 'error',
+      'no-implied-eval': 'error',
       'no-prototype-builtins': 'off',
       'no-unused-vars': 'off',
       'cypress/no-async-tests': 'off',
