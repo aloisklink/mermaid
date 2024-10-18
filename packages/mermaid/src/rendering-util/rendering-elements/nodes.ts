@@ -27,7 +27,7 @@ export async function insertNode(
     }
   }
 
-  const shapeHandler = shapes[(node.shape ?? 'undefined') as keyof typeof shapes];
+  const shapeHandler = node.shape ? shapes[node.shape] : undefined;
 
   if (!shapeHandler) {
     throw new Error(`No such shape: ${node.shape}. Please check your syntax.`);
