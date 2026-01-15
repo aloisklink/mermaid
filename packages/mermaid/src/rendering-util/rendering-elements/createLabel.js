@@ -52,13 +52,14 @@ async function addHtmlLabel(node) {
   return fo.node();
 }
 /**
+ * @param {import('../../types.js').D3Selection<SVGGElement>} element - The parent element to which the label will be appended.
  * @param _vertexText
  * @param style
  * @param isTitle
  * @param isNode
  * @deprecated svg-util/createText instead
  */
-const createLabel = async (_vertexText, style, isTitle, isNode) => {
+const createLabel = async (element, _vertexText, style, isTitle, isNode) => {
   let vertexText = _vertexText || '';
   if (typeof vertexText === 'object') {
     vertexText = vertexText[0];
@@ -78,7 +79,7 @@ const createLabel = async (_vertexText, style, isTitle, isNode) => {
     };
     let vertexNode = await addHtmlLabel(node);
     // vertexNode.parentNode.removeChild(vertexNode);
-    return vertexNode;
+    return element.node().appendChild(vertexNode);
   } else {
     const svgLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     svgLabel.setAttribute('style', style.replace('color:', 'fill:'));
@@ -104,7 +105,7 @@ const createLabel = async (_vertexText, style, isTitle, isNode) => {
       tspan.textContent = row.trim();
       svgLabel.appendChild(tspan);
     }
-    return svgLabel;
+    return element.node().appendChild(svgLabel);
   }
 };
 
