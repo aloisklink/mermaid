@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { expectNoErrorsOrAlternatives } from './test-util.js';
-import type { Treemap, Section, Leaf, TreemapRow } from '../src/language/generated/ast.js';
+import { type Treemap, isSection, isLeaf } from '../src/language/generated/ast.js';
 import type { LangiumParser } from 'langium';
 import { createTreemapServices } from '../src/language/treemap/module.js';
 
@@ -25,11 +25,9 @@ describe('Treemap Parser', () => {
       expectNoErrorsOrAlternatives(result);
       expect(result.value.$type).toBe('Treemap');
       expect(result.value.TreemapRows).toHaveLength(1);
-      if (result.value.TreemapRows[0].item) {
-        expect(result.value.TreemapRows[0].item.$type).toBe('Section');
-        const section = result.value.TreemapRows[0].item as Section;
-        expect(section.name).toBe('Root');
-      }
+      const section = result.value.TreemapRows[0].item;
+      assert(isSection(section));
+      expect(section.name).toBe('Root');
     });
 
     it('should parse a section with leaf nodes', () => {
@@ -42,22 +40,20 @@ describe('Treemap Parser', () => {
       expect(result.value.$type).toBe('Treemap');
       expect(result.value.TreemapRows).toHaveLength(3);
 
-      if (result.value.TreemapRows[0].item) {
-        expect(result.value.TreemapRows[0].item.$type).toBe('Section');
-        const section = result.value.TreemapRows[0].item as Section;
-        expect(section.name).toBe('Root');
-      }
+      const section = result.value.TreemapRows[0].item;
+      assert(isSection(section));
+      expect(section.name).toBe('Root');
 
-      if (result.value.TreemapRows[1].item) {
-        expect(result.value.TreemapRows[1].item.$type).toBe('Leaf');
-        const leaf = result.value.TreemapRows[1].item as Leaf;
+      {
+        const leaf = result.value.TreemapRows[1].item;
+        assert(isLeaf(leaf));
         expect(leaf.name).toBe('Child1');
         expect(leaf.value).toBe(100);
       }
 
-      if (result.value.TreemapRows[2].item) {
-        expect(result.value.TreemapRows[2].item.$type).toBe('Leaf');
-        const leaf = result.value.TreemapRows[2].item as Leaf;
+      {
+        const leaf = result.value.TreemapRows[2].item;
+        assert(isLeaf(leaf));
         expect(leaf.name).toBe('Child2');
         expect(leaf.value).toBe(200);
       }
@@ -68,23 +64,19 @@ describe('Treemap Parser', () => {
     it('should correctly parse string values', () => {
       const result = parse('treemap\n"My Section"');
       expectNoErrorsOrAlternatives(result);
-      if (result.value.TreemapRows[0].item) {
-        expect(result.value.TreemapRows[0].item.$type).toBe('Section');
-        const section = result.value.TreemapRows[0].item as Section;
-        expect(section.name).toBe('My Section');
-      }
+      const section = result.value.TreemapRows[0].item;
+      assert(isSection(section));
+      expect(section.name).toBe('My Section');
     });
 
     it('should correctly parse number values', () => {
       const result = parse('treemap\n"Item" : 123.45');
       expectNoErrorsOrAlternatives(result);
-      if (result.value.TreemapRows[0].item) {
-        expect(result.value.TreemapRows[0].item.$type).toBe('Leaf');
-        const leaf = result.value.TreemapRows[0].item as Leaf;
-        expect(leaf.name).toBe('Item');
-        expect(typeof leaf.value).toBe('number');
-        expect(leaf.value).toBe(123.45);
-      }
+      const leaf = result.value.TreemapRows[0].item;
+      assert(isLeaf(leaf));
+      expect(leaf.name).toBe('Item');
+      expect(typeof leaf.value).toBe('number');
+      expect(leaf.value).toBe(123.45);
     });
   });
 
@@ -204,35 +196,27 @@ accDescr: This is an accessible description
       const result = parse('treemap\n"My Section":::sectionClass');
       expectNoErrorsOrAlternatives(result);
 
-      const row = result.value.TreemapRows.find(
-        (element): element is TreemapRow => element.$type === 'TreemapRow'
-      );
+      const row = result.value.TreemapRows[0];
 
-      expect(row).toBeDefined();
-      if (row?.item) {
-        expect(row.item.$type).toBe('Section');
-        const section = row.item as Section;
-        expect(section.name).toBe('My Section');
-        expect(section.classSelector).toBe('sectionClass');
-      }
+      assert(row !== undefined);
+      const section = row.item;
+      assert(isSection(section));
+      expect(section.name).toBe('My Section');
+      expect(section.classSelector).toBe('sectionClass');
     });
 
     it('should parse a leaf with inline class style using :::', () => {
       const result = parse('treemap\n"My Leaf" : 100:::leafClass');
       expectNoErrorsOrAlternatives(result);
 
-      const row = result.value.TreemapRows.find(
-        (element): element is TreemapRow => element.$type === 'TreemapRow'
-      );
+      const row = result.value.TreemapRows[0];
 
-      expect(row).toBeDefined();
-      if (row?.item) {
-        expect(row.item.$type).toBe('Leaf');
-        const leaf = row.item as Leaf;
-        expect(leaf.name).toBe('My Leaf');
-        expect(leaf.value).toBe(100);
-        expect(leaf.classSelector).toBe('leafClass');
-      }
+      assert(row !== undefined);
+      const leaf = row.item;
+      assert(isLeaf(leaf));
+      expect(leaf.name).toBe('My Leaf');
+      expect(leaf.value).toBe(100);
+      expect(leaf.classSelector).toBe('leafClass');
     });
   });
 });
