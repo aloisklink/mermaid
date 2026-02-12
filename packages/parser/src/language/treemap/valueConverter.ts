@@ -1,5 +1,6 @@
 import type { CstNode, GrammarAST, ValueType } from 'langium';
 import { AbstractMermaidValueConverter } from '../common/index.js';
+import type { ClassDefStatement } from '../generated/ast.js';
 
 // Regular expression to extract className and styleText from a classDef terminal
 const classDefRegex = /classDef\s+([A-Z_a-z]\w+)(?:\s+([^\n\r;]*))?;?/;
@@ -32,11 +33,13 @@ export class TreemapValueConverter extends AbstractMermaidValueConverter {
       const match = classDefRegex.exec(input);
       if (match) {
         // Use any type to avoid type issues
-        return {
+        const newNode = {
           $type: 'ClassDefStatement',
           className: match[1],
-          styleText: match[2] || undefined,
-        } as any;
+          styleText: match[2] ?? '',
+        } satisfies ClassDefStatement;
+        // @ts-expect-error -- This doesn't return a Langium primitive/`ValueType`, but at least in Langium v3.5.0, that's okay.
+        return newNode;
       }
     }
     return undefined;

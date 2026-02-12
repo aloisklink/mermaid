@@ -136,7 +136,8 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "roughjs": "patches/roughjs.patch"
+      "roughjs": "patches/roughjs.patch",
+      "langium-cli": "patches/langium-cli.patch"
     },
     "onlyBuiltDependencies": [
       "canvas",

@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
+  langium-cli:
+    hash: d012e7afb32266d60ba170a791133f621eaf87405fd50346ce34a3c0bbfcfa38
+    path: patches/langium-cli.patch
   roughjs:
     hash: 3543d47108cb41b68ec6a671c0e1f9d0cfe2ce524fea5b0992511ae84c3c6b64
     path: patches/roughjs.patch
@@ -165,7 +168,7 @@ importers:
         version: 26.1.0(canvas@3.1.2)
       langium-cli:
         specifier: ^3.5.0
-        version: 3.5.2
+        version: 3.5.2(patch_hash=d012e7afb32266d60ba170a791133f621eaf87405fd50346ce34a3c0bbfcfa38)
       lint-staged:
         specifier: ^16.1.2
         version: 16.1.2
@@ -18946,7 +18949,7 @@ snapshots:
 
   ky@0.30.0: {}
 
-  langium-cli@3.5.2:
+  langium-cli@3.5.2(patch_hash=d012e7afb32266d60ba170a791133f621eaf87405fd50346ce34a3c0bbfcfa38):
     dependencies:
       chalk: 5.3.0
       commander: 11.0.0

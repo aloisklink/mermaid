@@ -1,0 +1,37 @@
+diff --git a/lib/generator/ast-generator.js b/lib/generator/ast-generator.js
+index dbd5fb72b4535480cf64af91a8c24cd8f8060256..cb11eb4ac304921bc7606cd54b8dd600a89e86a6 100644
+--- a/lib/generator/ast-generator.js
++++ b/lib/generator/ast-generator.js
+@@ -5,6 +5,13 @@ import { generatedHeader } from './node-util.js';
+ import { collectKeywords, collectTerminalRegexps } from './langium-util.js';
+ export function generateAst(services, grammars, config) {
+     const astTypes = collectAst(grammars, services);
++
++    // mermaid has some custom logic to replace 'classDef' with 'classDefStatement' in treemapRow
++    const [classDefStatement, classDef, treemapRow] = ['ClassDefStatement', 'ClassDef', 'TreemapRow'].map((name) => [...astTypes.interfaces, ...astTypes.unions].find((type) => type.name === name));
++    treemapRow.subTypes.add(classDefStatement);
++    treemapRow.typeNames.delete(classDef.name);
++    treemapRow.typeNames.add(classDefStatement.name);
++
+     const importFrom = config.langiumInternal ? `../../syntax-tree${config.importExtension}` : 'langium';
+     /* eslint-disable @typescript-eslint/indent */
+     const fileNode = expandToNode `
+diff --git a/src/generator/ast-generator.ts b/src/generator/ast-generator.ts
+index e21f67402bce26001b86d3baa2af16da125c3ba8..edbdeace84cf27d23d5c7feff97dd792c4efea01 100644
+--- a/src/generator/ast-generator.ts
++++ b/src/generator/ast-generator.ts
+@@ -14,6 +14,14 @@ import { collectKeywords, collectTerminalRegexps } from './langium-util.js';
+ 
+ export function generateAst(services: LangiumCoreServices, grammars: Grammar[], config: LangiumConfig): string {
+     const astTypes = collectAst(grammars, services);
++
++    // mermaid has some custom logic to replace 'classDef' with 'classDefStatement' in treemapRow
++    const [classDefStatement, classDef, treemapRow] = ['ClassDefStatement', 'ClassDef', 'TreemapRow'].map((name) => [...astTypes.interfaces, ...astTypes.unions].find((type) => type.name === name));
++    treemapRow.subTypes.delete(classDef);
++    treemapRow.subTypes.add(classDefStatement);
++    treemapRow.typeNames.delete(classDef.name);
++    treemapRow.typeNames.add(classDefStatement.name);
++
+     const importFrom = config.langiumInternal ? `../../syntax-tree${config.importExtension}` : 'langium';
+     /* eslint-disable @typescript-eslint/indent */
+     const fileNode = expandToNode`

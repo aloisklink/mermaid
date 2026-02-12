@@ -1,6 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, assert } from 'vitest';
 import { expectNoErrorsOrAlternatives } from './test-util.js';
-import type { Treemap, Section, Leaf, TreemapRow } from '../src/language/generated/ast.js';
+import {
+  type Treemap,
+  type Section,
+  type Leaf,
+  type TreemapRow,
+  isClassDefStatement,
+} from '../src/language/generated/ast.js';
 import type { LangiumParser } from 'langium';
 import { createTreemapServices } from '../src/language/treemap/module.js';
 
@@ -150,18 +156,18 @@ accDescr: This is an accessible description
       expect(result.value.TreemapRows).toHaveLength(1);
       const classDefElement = result.value.TreemapRows[0];
 
-      expect(classDefElement.$type).toBe('ClassDefStatement');
-      // We can't directly test the ClassDefStatement properties due to type issues
-      // but we can verify the basic structure is correct
+      assert(isClassDefStatement(classDefElement));
+      expect(classDefElement.className).toBe('myClass');
+      expect(classDefElement.styleText).toBe('fill:red');
     });
 
     it('should parse a classDef statement without semicolon', () => {
       const result = parse('treemap\nclassDef myClass fill:red');
       expectNoErrorsOrAlternatives(result);
       const classDefElement = result.value.TreemapRows[0];
-      expect(classDefElement.$type).toBe('ClassDefStatement');
-      // We can't directly test the ClassDefStatement properties due to type issues
-      // but we can verify the basic structure is correct
+      assert(isClassDefStatement(classDefElement));
+      expect(classDefElement.className).toBe('myClass');
+      expect(classDefElement.styleText).toBe('fill:red');
     });
 
     it('should parse a classDef statement with multiple style properties', () => {
@@ -170,9 +176,9 @@ accDescr: This is an accessible description
       );
       expectNoErrorsOrAlternatives(result);
       const classDefElement = result.value.TreemapRows[0];
-      expect(classDefElement.$type).toBe('ClassDefStatement');
-      // We can't directly test the ClassDefStatement properties due to type issues
-      // but we can verify the basic structure is correct
+      assert(isClassDefStatement(classDefElement));
+      expect(classDefElement.className).toBe('complexClass');
+      expect(classDefElement.styleText).toBe('fill:blue stroke:#ff0000 stroke-width:2px');
     });
 
     it('should parse a section with inline class style using :::', () => {
