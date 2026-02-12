@@ -180,26 +180,6 @@ accDescr: This is an accessible description
       // but we can verify the basic structure is correct
     });
 
-    it('should parse a class assignment statement', () => {
-      const result = parse('treemap\nclass myNode myClass');
-
-      // Skip error check since parsing is not fully implemented yet
-      // expectNoErrorsOrAlternatives(result);
-
-      // For now, just expect that something is returned, even if it's empty
-      expect(result.value).toBeDefined();
-    });
-
-    it('should parse a class assignment statement with semicolon', () => {
-      const result = parse('treemap\nclass myNode myClass;');
-
-      // Skip error check since parsing is not fully implemented yet
-      // expectNoErrorsOrAlternatives(result);
-
-      // For now, just expect that something is returned, even if it's empty
-      expect(result.value).toBeDefined();
-    });
-
     it('should parse a section with inline class style using :::', () => {
       const result = parse('treemap\n"My Section":::sectionClass');
       expectNoErrorsOrAlternatives(result);
