@@ -47,10 +47,7 @@ export class TreemapValidator {
           node: row,
           property: 'item',
         });
-      } else if (
-        rootNodeIndentation !== undefined &&
-        rootNodeIndentation >= parseInt(row.indent, 10)
-      ) {
+      } else if (rootNodeIndentation !== undefined && rootNodeIndentation >= row.indent) {
         accept('error', 'Multiple root nodes are not allowed in a treemap.', {
           node: row,
           property: 'item',

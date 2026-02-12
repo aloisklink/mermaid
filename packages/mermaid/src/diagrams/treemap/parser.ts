@@ -39,7 +39,7 @@ const populate = (ast: TreemapAst, db: TreemapDB) => {
       continue;
     }
 
-    const level = row.indent ? parseInt(row.indent) : 0;
+    const level = row.indent ?? 0;
     const name = getItemName(item);
 
     // Get styles as a string if they exist

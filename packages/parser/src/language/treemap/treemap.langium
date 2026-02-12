@@ -76,7 +76,7 @@ Leaf returns Leaf:
     name=STRING2 INDENTATION? (SEPARATOR | COMMA) INDENTATION? value=MyNumber (STYLE_SEPARATOR classSelector=ID2)?;
 
 // This should be processed before whitespace is ignored
-terminal INDENTATION: /[ \t]{1,}/;  // One or more spaces/tabs for indentation
+terminal INDENTATION returns number: /[ \t]{1,}/;  // One or more spaces/tabs for indentation
 
 // Keywords with fixed text patterns
 terminal ID2: /[a-zA-Z_][a-zA-Z0-9_]*/;

@@ -51,7 +51,7 @@ export interface TreemapItem {
 
 export interface TreemapRow {
   $type: string;
-  indent?: string;
+  indent?: number;
   item?: TreemapItem;
   className?: string;
   styleText?: string;

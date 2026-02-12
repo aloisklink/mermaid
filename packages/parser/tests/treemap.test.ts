@@ -45,14 +45,18 @@ describe('Treemap Parser', () => {
       expect(section.name).toBe('Root');
 
       {
-        const leaf = result.value.TreemapRows[1].item;
+        const leafRow = result.value.TreemapRows[1];
+        expect(leafRow.indent).toBe(2);
+        const leaf = leafRow.item;
         assert(isLeaf(leaf));
         expect(leaf.name).toBe('Child1');
         expect(leaf.value).toBe(100);
       }
 
       {
-        const leaf = result.value.TreemapRows[2].item;
+        const leafRow = result.value.TreemapRows[2];
+        expect(leafRow.indent).toBe(2);
+        const leaf = leafRow.item;
         assert(isLeaf(leaf));
         expect(leaf.name).toBe('Child2');
         expect(leaf.value).toBe(200);
