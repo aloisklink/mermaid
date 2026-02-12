@@ -145,8 +145,7 @@ accDescr: This is an accessible description
   describe('ClassDef and Class Statements', () => {
     it('should parse a classDef statement', () => {
       const result = parse('treemap\nclassDef myClass fill:red;');
-
-      // We know there are parser errors with styleText as the Langium grammar can't handle it perfectly
+      expectNoErrorsOrAlternatives(result);
       // Check that we at least got the right type and className
       expect(result.value.TreemapRows).toHaveLength(1);
       const classDefElement = result.value.TreemapRows[0];
@@ -158,9 +157,7 @@ accDescr: This is an accessible description
 
     it('should parse a classDef statement without semicolon', () => {
       const result = parse('treemap\nclassDef myClass fill:red');
-
-      // Skip error assertion
-
+      expectNoErrorsOrAlternatives(result);
       const classDefElement = result.value.TreemapRows[0];
       expect(classDefElement.$type).toBe('ClassDefStatement');
       // We can't directly test the ClassDefStatement properties due to type issues
@@ -171,9 +168,7 @@ accDescr: This is an accessible description
       const result = parse(
         'treemap\nclassDef complexClass fill:blue stroke:#ff0000 stroke-width:2px'
       );
-
-      // Skip error assertion
-
+      expectNoErrorsOrAlternatives(result);
       const classDefElement = result.value.TreemapRows[0];
       expect(classDefElement.$type).toBe('ClassDefStatement');
       // We can't directly test the ClassDefStatement properties due to type issues
