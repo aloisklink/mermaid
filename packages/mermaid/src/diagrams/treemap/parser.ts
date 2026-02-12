@@ -1,8 +1,8 @@
-import { parse } from '@mermaid-js/parser';
+import { parse, type Treemap, isClassDefStatement, isLeaf } from '@mermaid-js/parser';
 import type { ParserDefinition } from '../../diagram-api/types.js';
 import { log } from '../../logger.js';
 import { populateCommonDb } from '../common/populateCommonDb.js';
-import type { TreemapNode, TreemapAst, TreemapDB } from './types.js';
+import type { TreemapNode, TreemapDB } from './types.js';
 import { buildHierarchy } from './utils.js';
 import { TreeMapDB } from './db.js';
 
@@ -10,10 +10,8 @@ import { TreeMapDB } from './db.js';
  * Populates the database with data from the Treemap AST
  * @param ast - The Treemap AST
  */
-const populate = (ast: TreemapAst, db: TreemapDB) => {
-  // We need to bypass the type checking for populateCommonDb
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  populateCommonDb(ast as any, db);
+const populate = (ast: Treemap, db: TreemapDB) => {
+  populateCommonDb(ast, db);
 
   const items: {
     level: number;
@@ -26,7 +24,7 @@ const populate = (ast: TreemapAst, db: TreemapDB) => {
 
   // Extract classes and styles from the treemap
   for (const row of ast.TreemapRows ?? []) {
-    if (row.$type === 'ClassDefStatement') {
+    if (isClassDefStatement(row)) {
       db.addClass(row.className ?? '', row.styleText ?? '');
     }
   }
@@ -50,7 +48,7 @@ const populate = (ast: TreemapAst, db: TreemapDB) => {
       level,
       name,
       type: item.$type,
-      value: item.value,
+      value: isLeaf(item) ? item.value : undefined,
       classSelector: item.classSelector,
       cssCompiledStyles,
     };
@@ -90,8 +88,7 @@ export const parser: ParserDefinition = {
     try {
       // Use a generic parse that accepts any diagram type
 
-      const parseFunc = parse as (diagramType: string, text: string) => Promise<TreemapAst>;
-      const ast = await parseFunc('treemap', text);
+      const ast = await parse('treemap', text);
       log.debug('Treemap AST:', ast);
       const db = parser.parser?.yy;
       if (!(db instanceof TreeMapDB)) {

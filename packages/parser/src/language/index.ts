@@ -21,6 +21,8 @@ export {
   isArchitecture,
   isGitGraph,
   isTreemap,
+  isLeaf,
+  isClassDefStatement,
   isBranch,
   isCommit,
   isMerge,
