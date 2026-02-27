@@ -10,10 +10,8 @@
     "./.build/*.ts",
     "./.esbuild/*.ts",
     "./.vite/*.ts",
-    "./cypress.config.cjs",
     "./tests",
     "./scripts",
-    "./cypress",
     "./__mocks__",
     "./demos/dev",
     "./vite.config.ts",
@@ -26,6 +24,9 @@
     },
     {
       "path": "./packages/mermaid/tsconfig.eslint.json"
+    },
+    {
+      "path": "./cypress/tsconfig.json"
     }
   ]
 }

@@ -1,11 +1,15 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "../",
     "target": "es2020",
     "lib": ["es2020", "dom"],
-    "types": ["cypress", "node", "@argos-ci/cypress/support"],
+    "types": ["cypress", "node", "@argos-ci/cypress/support", "cypress-image-snapshot"],
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "emitDeclarationOnly": true,
+    "composite": true,
+    "outDir": "../node_modules/.typescript/cypress"
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.js", "../cypress.config.cjs"],
   "references": [{ "path": "../packages/mermaid" }]
 }

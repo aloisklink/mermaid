@@ -31,6 +31,7 @@ export default tseslint.config(
     languageOptions: {
       parserOptions: {
         project: [
+          './cypress/tsconfig.json',
           './tsconfig.eslint.json',
           './packages/*/tsconfig.json',
           './packages/*/tsconfig.eslint.json',

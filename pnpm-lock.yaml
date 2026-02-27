@@ -40,6 +40,9 @@ importers:
       '@types/cors':
         specifier: ^2.8.19
         version: 2.8.19
+      '@types/cypress-image-snapshot':
+        specifier: ^3.1.9
+        version: 3.1.9
       '@types/express':
         specifier: ^5.0.6
         version: 5.0.6
@@ -3038,6 +3041,9 @@ packages:
 
   '@types/cors@2.8.19':
     resolution: {integrity: sha512-mFNylyeyqN93lfe/9CSxOGREz8cpzAhH+E93xJ4xWQf62V8sQ/24reV2nyzUWM6H6Xji+GGHpkbLe7pVoUEskg==}
+
+  '@types/cypress-image-snapshot@3.1.9':
+    resolution: {integrity: sha512-vcFgB8AfuM0dtupCHAGgapUbjRNWmMDtpzzpXz5gexWOHW4y/n10XRi5/y5Xpi0Ztku+X4dnRVMqQa5IDcy3Ig==}
 
   '@types/cytoscape-fcose@2.2.5':
     resolution: {integrity: sha512-FaM6MM5zC4Yh72E60vkpbM4tstJS90wj3u1Vq/SMiK/MShhLaMd17QkmR39S14aUWdfNSlUEfx/g/XkDdFmXDA==}
@@ -13541,6 +13547,8 @@ snapshots:
   '@types/cors@2.8.19':
     dependencies:
       '@types/node': 22.19.1
+
+  '@types/cypress-image-snapshot@3.1.9': {}
 
   '@types/cytoscape-fcose@2.2.5':
     dependencies:

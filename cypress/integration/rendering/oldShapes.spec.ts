@@ -1,4 +1,4 @@
-import { imgSnapshotTest } from '../../helpers/util';
+import { imgSnapshotTest } from '../../helpers/util.ts';
 
 const looks = ['classic', 'handDrawn'] as const;
 const directions = [

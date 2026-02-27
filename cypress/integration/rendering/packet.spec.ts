@@ -1,4 +1,4 @@
-import { imgSnapshotTest } from '../../helpers/util';
+import { imgSnapshotTest } from '../../helpers/util.ts';
 
 describe('packet structure', () => {
   it('should render a simple packet-beta diagram', () => {

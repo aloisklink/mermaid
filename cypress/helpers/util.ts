@@ -42,7 +42,7 @@ export const mermaidUrl = (
   }
 
   if (options.listUrl) {
-    cy.log(options.listId, ' ', url);
+    cy.log(options.listId ?? 'undefined', ' ', url);
   }
 
   return url;

@@ -1,4 +1,4 @@
-import { imgSnapshotTest } from '../../helpers/util';
+import { imgSnapshotTest } from '../../helpers/util.ts';
 
 describe('Katex', () => {
   it('1: should render a complex Katex flowchart no htmlLabels', () => {
