@@ -99,7 +99,7 @@ export const parser: ParserDefinition = {
 };
 
 if (import.meta.vitest) {
-  const { it, expect, describe } = import.meta.vitest;
+  const { vi, it, expect, describe } = import.meta.vitest;
 
   const mockDB: GitGraphDBParseProvider = {
     commitType: commitType,
