@@ -94,7 +94,10 @@ export const openURLAndVerifyRendering = (
   { screenshot = true, ...options }: CypressMermaidConfig,
   validation?: any
 ): void => {
-  const name: string = (options.name ?? cy.state('runnable').fullTitle()).replace(/\s+/g, '-');
+  const name: string = (options.name ?? Cypress.currentTest.titlePath.join(' ')).replace(
+    /\s+/g,
+    '-'
+  );
 
   cy.visit(url);
   cy.window().should('have.property', 'rendered', true);
