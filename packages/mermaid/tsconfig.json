@@ -4,9 +4,11 @@
     "rootDir": "./src",
     "outDir": "./dist",
     "composite": true,
-    "types": ["vitest/importMeta", "vitest/globals"]
+    "types": ["vitest/importMeta"]
   },
   "include": ["./src/**/*.ts", "./package.json", "./src/**/*.js"],
+  // Test files are compiled in `tsconfig.eslint.json`
+  "exclude": ["./src/**/*.spec.ts", "./src/**/*.spec.js", "**/__mocks__"],
   "references": [
     {
       "path": "../parser"

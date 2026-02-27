@@ -23,6 +23,9 @@
   "references": [
     {
       "path": "./tsconfig.json"
+    },
+    {
+      "path": "./packages/mermaid/tsconfig.eslint.json"
     }
   ]
 }
