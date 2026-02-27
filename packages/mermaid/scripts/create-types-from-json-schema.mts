@@ -10,7 +10,7 @@
 
 /* eslint-disable no-console */
 
-import _Ajv2019, { type JSONSchemaType } from 'ajv/dist/2019.js';
+import { Ajv2019, type JSONSchemaType } from 'ajv/dist/2019.js';
 import { JSON_SCHEMA, load } from 'js-yaml';
 import { compile, type JSONSchema } from 'json-schema-to-typescript';
 import assert from 'node:assert';
@@ -19,10 +19,6 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
 import prettier from 'prettier';
-
-// Workaround for wrong AJV types, see
-// https://github.com/ajv-validator/ajv/issues/2132#issuecomment-1290409907
-const Ajv2019 = _Ajv2019 as unknown as typeof _Ajv2019.default;
 
 // !!! -- The config.type.js file is created by this script -- !!!
 import type { MermaidConfig } from '../src/config.type.js';
@@ -96,7 +92,7 @@ async function generateTypeScript(mermaidConfigSchema: JSONSchemaType<MermaidCon
    * @param schema - The input schema.
    * @returns The schema with `allOf` replaced with `extends`.
    */
-  function replaceAllOfWithExtends(schema: JSONSchemaType<Record<string, any>>) {
+  function replaceAllOfWithExtends<X, T extends { allOf?: X; [x: string]: unknown }>(schema: T) {
     if (schema.allOf) {
       const { allOf, ...schemaWithoutAllOf } = schema;
       return {
@@ -120,7 +116,7 @@ async function generateTypeScript(mermaidConfigSchema: JSONSchemaType<MermaidCon
    * @param schema - The input schema.
    * @returns The schema with all required values removed.
    */
-  function removeRequired(schema: JSONSchemaType<Record<string, any>>) {
+  function removeRequired<T extends Record<string, unknown>>(schema: T) {
     return { ...schema, required: [] };
   }
 
