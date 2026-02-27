@@ -115,7 +115,8 @@ export function buildShapeDoc() {
   const data = shapesDefs
     .sort((a, b) => a.semanticName.localeCompare(b.semanticName))
     .map((shape): PhrasingContent[][] => {
-      const { name, semanticName, description, shortName, aliases = [] } = shape;
+      const { name, semanticName, description, shortName } = shape;
+      const aliases = 'aliases' in shape ? shape.aliases : [];
       return [
         [{ type: 'text', value: semanticName }],
         [{ type: 'text', value: name }],
