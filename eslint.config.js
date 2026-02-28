@@ -1,5 +1,6 @@
 import cspell from '@cspell/eslint-plugin';
 import eslint from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import cypress from 'eslint-plugin-cypress';
 import jsdoc from 'eslint-plugin-jsdoc';
 import json from 'eslint-plugin-json';
@@ -11,7 +12,7 @@ import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+export default defineConfig(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
