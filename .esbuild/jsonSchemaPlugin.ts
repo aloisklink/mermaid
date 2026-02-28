@@ -1,4 +1,5 @@
 import type { JSONSchemaType } from 'ajv/dist/2019.js';
+import type { Plugin } from 'esbuild';
 import type { MermaidConfig } from '../packages/mermaid/src/config.type.js';
 import { readFile } from 'node:fs/promises';
 import { getDefaults, getSchema, loadSchema } from '../.build/jsonSchema.js';
@@ -9,7 +10,7 @@ import { getDefaults, getSchema, loadSchema } from '../.build/jsonSchema.js';
  * Use `my-example.schema.yaml?only-defaults=true` to only load the default values.
  */
 
-export const jsonSchemaPlugin = {
+export const jsonSchemaPlugin: Plugin = {
   name: 'json-schema-plugin',
   setup(build) {
     let schema: JSONSchemaType<MermaidConfig> | undefined = undefined;

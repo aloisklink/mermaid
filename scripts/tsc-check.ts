@@ -72,7 +72,7 @@ const SRC = {
       2
     ),
   // the simplest possible script: will everything even import?
-  'src/index.ts': (tarballs) => {
+  'src/index.ts': (tarballs: Record<string, string>) => {
     const imports: string[] = [];
     const outputs: string[] = [];
     let i = 0;

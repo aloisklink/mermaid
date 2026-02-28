@@ -72,7 +72,7 @@ const buildPackage = async (entryName: keyof typeof packageOptions) => {
   }
 };
 
-const handler = (e) => {
+const handler = (e: Error) => {
   // eslint-disable-next-line no-console
   console.error(e);
   process.exit(1);

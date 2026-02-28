@@ -1,7 +1,7 @@
 import { load, JSON_SCHEMA } from 'js-yaml';
 import assert from 'node:assert';
 import { Ajv2019, type JSONSchemaType } from 'ajv/dist/2019.js';
-import type { MermaidConfig, BaseDiagramConfig } from '../packages/mermaid/src/config.type.js';
+import type { MermaidConfig } from '../packages/mermaid/src/config.type.js';
 
 /**
  * All of the keys in the mermaid config that have a mermaid diagram config.
@@ -59,7 +59,7 @@ function generateDefaults(mermaidConfigSchema: JSONSchemaType<MermaidConfig>) {
 
   // ajv currently doesn't support nested default values, see https://github.com/ajv-validator/ajv/issues/1718
   // (may be fixed in v9) so we need to manually use sub-schemas
-  const mermaidDefaultConfig = {};
+  const mermaidDefaultConfig: MermaidConfig = {};
 
   assert.ok(mermaidConfigSchema.$defs);
   const baseDiagramConfig = mermaidConfigSchema.$defs.BaseDiagramConfig;
@@ -73,14 +73,17 @@ function generateDefaults(mermaidConfigSchema: JSONSchemaType<MermaidConfig>) {
       $schema: mermaidConfigSchema.$schema,
       $defs: mermaidConfigSchema.$defs,
       ...mermaidConfigSchema.$defs[defName],
-    } as JSONSchemaType<BaseDiagramConfig>;
+    };
 
     const validate = ajv.compile(subSchema);
 
     mermaidDefaultConfig[key] = {};
+    const requiredMembers = 'required' in subSchema ? subSchema.required : [];
 
-    for (const required of subSchema.required ?? []) {
+    for (const required of requiredMembers) {
+      assert('properties' in subSchema && subSchema.properties);
       if (subSchema.properties[required] === undefined && baseDiagramConfig.properties[required]) {
+        // @ts-ignore -- we know this is safe because the required members of the sub-schema must be a subset of the base diagram config
         mermaidDefaultConfig[key][required] = baseDiagramConfig.properties[required].default;
       }
     }

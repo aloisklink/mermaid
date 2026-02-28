@@ -6,7 +6,6 @@ import { ESLint } from 'eslint';
 import jison from 'jison';
 
 const linter = new ESLint({
-  // @ts-expect-error ESLint types are incorrect
   overrideConfigFile: true,
   overrideConfig: { rules: { 'no-console': 'error' } },
 });

@@ -4,7 +4,12 @@
   "compilerOptions": {
     // ensure that nobody can accidentally use this config for a build
     "noEmit": true,
-    "allowJs": true
+    "allowJs": true,
+    // Seems to be required for importing `vite-plugin-istanbul` and `@rollup/plugin-typescript`
+    // They're both "Masquerading as CJS", see https://arethetypeswrong.github.io/?p=vite-plugin-istanbul%407.2.1
+    "moduleResolution": "bundler",
+    "module": "es2022",
+    "target": "es2022"
   },
   "include": [
     "./.build/*.ts",

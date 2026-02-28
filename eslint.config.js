@@ -12,7 +12,11 @@ import unicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-export default defineConfig(
+/**
+ * @type {import('eslint').Linter.Config[]}
+ * Explicitly type to avoid TS2742 error.
+ */
+const config = defineConfig(
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
@@ -223,3 +227,4 @@ export default defineConfig(
     processor: 'markdown/markdown',
   }
 );
+export default config;

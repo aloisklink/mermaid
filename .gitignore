@@ -34,6 +34,7 @@ cypress/snapshots/
 # eslint --cache file
 .eslintcache
 .tsbuildinfo
+tsconfig.eslint.tsbuildinfo
 tsconfig.tsbuildinfo
 
 #knsv*.html
