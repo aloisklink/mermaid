@@ -1,3 +1,4 @@
+import { loadDiagram } from '@mermaid-js/core/diagram-api/loadDiagram.js';
 import { vi } from 'vitest';
 
 // @ts-expect-error This module has no TypeScript types
@@ -58,7 +59,7 @@ describe('getStyles', () => {
    */
   describe.each(lazyDiagrams)('for diagram $id', ({ id, loader }) => {
     beforeAll(async () => {
-      const { diagram } = await loader();
+      const { diagram } = await loadDiagram(loader);
       addStylesForDiagram(id, diagram.styles);
     });
 

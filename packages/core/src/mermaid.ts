@@ -9,7 +9,13 @@ import type { MermaidConfig } from './config.type.js';
 import { detectType, detectors, registerLazyLoadedDiagrams } from './diagram-api/detectType.js';
 import { addDiagrams } from './diagram-api/diagram-orchestration.js';
 import { loadRegisteredDiagrams } from './diagram-api/loadDiagram.js';
-import type { ExternalDiagramDefinition, SVG, SVGGroup } from './diagram-api/types.js';
+import type {
+  AnyExternalDiagramDefinition,
+  ExternalDiagramDefinition,
+  ExternalDiagramDefinitionV13,
+  SVG,
+  SVGGroup,
+} from './diagram-api/types.js';
 import type { MathRenderer } from './diagrams/common/common.js';
 import type { ParseErrorFunction } from './Diagram.js';
 import type { MathPlugin, MermaidPlugin } from './plugins.js';
@@ -26,9 +32,11 @@ import type { DetailedError } from './utils.js';
 import utils, { isDetailedError } from './utils.js';
 
 export type {
+  AnyExternalDiagramDefinition,
   AsyncIconLoader,
   DetailedError,
   ExternalDiagramDefinition,
+  ExternalDiagramDefinitionV13,
   IconLoader,
   InternalHelpers,
   LayoutData,
@@ -254,11 +262,11 @@ const init = async function (
 
 /**
  * Used to register external diagram types.
- * @param diagrams - Array of {@link ExternalDiagramDefinition}.
+ * @param diagrams - Array of {@link ExternalDiagramDefinition} or {@link ExternalDiagramDefinitionV13}.
  * @param opts - If opts.lazyLoad is false, the diagrams will be loaded immediately.
  */
 const registerExternalDiagrams = async (
-  diagrams: ExternalDiagramDefinition[],
+  diagrams: AnyExternalDiagramDefinition[],
   {
     lazyLoad = true,
   }: {

@@ -3,6 +3,7 @@ import type * as d3 from 'd3';
 import type { SetOptional, SetRequired } from 'type-fest';
 import type { Diagram } from '../Diagram.js';
 import type { BaseDiagramConfig, MermaidConfig } from '../config.type.js';
+import type { DiagramPlugin } from '../v13/pipeline/types.js';
 
 export type DiagramOrientation = 'LR' | 'TB' | 'BT';
 
@@ -73,6 +74,12 @@ export interface DiagramDB {
    * other diagram leaves it unset and parses `cleaned` as before.
    */
   readonly preserveCommentsWhenParsing?: boolean;
+
+  /**
+   * Parse the source exactly as written ({@link DiagramCode.raw}): with its front matter,
+   * directives, `%%` comments and entities. Diagrams that set this handle those themselves.
+   */
+  readonly parsesRawSource?: boolean;
 
   /**
    * Receives the number of lines occupied by YAML frontmatter, which the parser
@@ -146,9 +153,38 @@ export interface ExternalDiagramDefinition {
   loader: DiagramLoader;
 }
 
-export type DetectorRecord = SetOptional<Omit<ExternalDiagramDefinition, 'id'>, 'loader'>;
+/** An {@link ExternalDiagramDefinition} whose loader loads a {@link DiagramDefinitionV13}. */
+export interface ExternalDiagramDefinitionV13 {
+  id: string;
+  detector: DiagramDetector;
+  loader: DiagramLoaderV13;
+}
+
+/** What `registerExternalDiagrams` takes: either kind of external diagram. */
+export interface AnyExternalDiagramDefinition {
+  id: string;
+  detector: DiagramDetector;
+  loader: AnyDiagramLoader;
+}
+
+export type DetectorRecord = SetOptional<Omit<AnyExternalDiagramDefinition, 'id'>, 'loader'>;
 export type DiagramDetector = (text: string, config?: MermaidConfig) => boolean;
+/**
+ * A diagram written against mermaid-v13's `DiagramPlugin` contract (see `packages/core/src/v13`).
+ * It parses the raw source and writes SVG markup.
+ */
+export type DiagramDefinitionV13<M = unknown, L = unknown> = DiagramPlugin<M, L>;
+
 export type DiagramLoader = () => Promise<{ id: string; diagram: DiagramDefinition }>;
+export type DiagramLoaderV13 = () => Promise<{
+  id: string;
+  diagram: DiagramDefinitionV13;
+  version: 13;
+}>;
+/** A {@link DiagramLoader} or a {@link DiagramLoaderV13}. */
+export type AnyDiagramLoader = () => Promise<
+  Awaited<ReturnType<DiagramLoader>> | Awaited<ReturnType<DiagramLoaderV13>>
+>;
 
 /**
  * Type for function draws diagram in the tag with id: id based on the graph definition in text.

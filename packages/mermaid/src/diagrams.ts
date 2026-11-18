@@ -1,4 +1,4 @@
-import type { ExternalDiagramDefinition } from '@mermaid-js/core';
+import type { AnyExternalDiagramDefinition } from '@mermaid-js/core';
 import agentflow from '@mermaid-js/diagram-agentflow';
 import architecture from '@mermaid-js/diagram-architecture';
 import block from '@mermaid-js/diagram-block';
@@ -33,7 +33,7 @@ import wardley from '@mermaid-js/diagram-wardley';
 import xychart from '@mermaid-js/diagram-xychart';
 
 /** The diagram packages that the `mermaid` entry registers. */
-export const diagrams: ExternalDiagramDefinition[] = [
+export const diagrams: AnyExternalDiagramDefinition[] = [
   // Detectors run in this order and the first match wins. These keep their original order:
   // `flowchart-elk` also matches flowchart's detector, and C4's detector matches its keywords
   // anywhere in the text.

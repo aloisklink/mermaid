@@ -1,6 +1,7 @@
 import * as configApi from './config.js';
 import { getDiagram, registerDiagram } from './diagram-api/diagramAPI.js';
 import { detectType, getDiagramLoader } from './diagram-api/detectType.js';
+import { loadDiagram } from './diagram-api/loadDiagram.js';
 import { UnknownDiagramError } from './errors.js';
 import defaultConfig from './defaultConfig.js';
 import { log } from './logger.js';
@@ -39,7 +40,7 @@ export class Diagram {
       }
       // Diagram not available, loading it.
       // new diagram will try getDiagram again and if fails then it is a valid throw
-      const { id, diagram } = await loader();
+      const { id, diagram } = await loadDiagram(loader);
       registerDiagram(id, diagram);
     }
     const { db, parser, renderer, init } = getDiagram(type);
@@ -75,7 +76,7 @@ export class Diagram {
         source = code.withComments;
       }
     }
-    const textToParse = encodeEntities(source) + '\n';
+    const textToParse = db.parsesRawSource ? code.raw : encodeEntities(source) + '\n';
     // Pass frontmatter line offset so positions can be adjusted to match the
     // original source (which includes frontmatter) shown in the editor.
     if (code.frontmatterLineOffset) {

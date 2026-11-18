@@ -1,6 +1,19 @@
 import { log } from '../logger.js';
 import { detectors } from './detectType.js';
 import { getDiagram, registerDiagram } from './diagramAPI.js';
+import type { AnyDiagramLoader, DiagramDefinition } from './types.js';
+
+/** Runs a diagram loader; a v13 diagram is wrapped as a v12 `DiagramDefinition` (the wrapper is imported on demand). */
+export const loadDiagram = async (
+  loader: AnyDiagramLoader
+): Promise<{ id: string; diagram: DiagramDefinition }> => {
+  const loaded = await loader();
+  if (!('version' in loaded)) {
+    return loaded;
+  }
+  const { fromDefinitionV13 } = await import('./diagramDefinitionV13.js');
+  return { id: loaded.id, diagram: fromDefinitionV13(loaded.diagram) };
+};
 
 export const loadRegisteredDiagrams = async () => {
   log.debug(`Loading registered diagrams`);
@@ -15,7 +28,7 @@ export const loadRegisteredDiagrams = async () => {
       } catch {
         try {
           // Register diagram if it is not already registered
-          const { diagram, id } = await loader();
+          const { diagram, id } = await loadDiagram(loader);
           registerDiagram(id, diagram, detector);
         } catch (err) {
           // Remove failed diagram from detectors

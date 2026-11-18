@@ -12,9 +12,11 @@
 
 ## Interfaces
 
+- [AnyExternalDiagramDefinition](interfaces/AnyExternalDiagramDefinition.md)
 - [AsyncIconLoader](interfaces/AsyncIconLoader.md)
 - [DetailedError](interfaces/DetailedError.md)
 - [ExternalDiagramDefinition](interfaces/ExternalDiagramDefinition.md)
+- [ExternalDiagramDefinitionV13](interfaces/ExternalDiagramDefinitionV13.md)
 - [LayoutData](interfaces/LayoutData.md)
 - [LayoutLoaderDefinition](interfaces/LayoutLoaderDefinition.md)
 - [MathPlugin](interfaces/MathPlugin.md)

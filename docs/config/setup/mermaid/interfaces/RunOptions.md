@@ -10,7 +10,7 @@
 
 # Interface: RunOptions
 
-Defined in: [packages/core/src/mermaid.ts:51](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L51)
+Defined in: [packages/core/src/mermaid.ts:59](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L59)
 
 ## Properties
 
@@ -18,7 +18,7 @@ Defined in: [packages/core/src/mermaid.ts:51](https://github.com/mermaid-js/merm
 
 > `optional` **nodes**: `ArrayLike`<`HTMLElement`>
 
-Defined in: [packages/core/src/mermaid.ts:59](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L59)
+Defined in: [packages/core/src/mermaid.ts:67](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L67)
 
 The nodes to render. If this is set, `querySelector` will be ignored.
 
@@ -28,7 +28,7 @@ The nodes to render. If this is set, `querySelector` will be ignored.
 
 > `optional` **postRenderCallback**: (`id`) => `unknown`
 
-Defined in: [packages/core/src/mermaid.ts:63](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L63)
+Defined in: [packages/core/src/mermaid.ts:71](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L71)
 
 A callback to call after each diagram is rendered.
 
@@ -48,7 +48,7 @@ A callback to call after each diagram is rendered.
 
 > `optional` **querySelector**: `string`
 
-Defined in: [packages/core/src/mermaid.ts:55](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L55)
+Defined in: [packages/core/src/mermaid.ts:63](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L63)
 
 The query selector to use when finding elements to render. Default: `".mermaid"`.
 
@@ -58,6 +58,6 @@ The query selector to use when finding elements to render. Default: `".mermaid"`
 
 > `optional` **suppressErrors**: `boolean`
 
-Defined in: [packages/core/src/mermaid.ts:67](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L67)
+Defined in: [packages/core/src/mermaid.ts:75](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/mermaid.ts#L75)
 
 If `true`, errors will be logged to the console, but not thrown. Default: `false`
