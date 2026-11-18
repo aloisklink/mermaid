@@ -9,3 +9,7 @@ for diagrams written against v13's diagram contract.
 so that later v13 changes can be ported over. Comments that cite `DESIGN §…`, `D…`, `R-…`,
 `#…` or `tools/…` refer to the design notes, issues and tooling of the mermaid-v13 repository.
 Generated files (such as `parser-kit/unicode-table.ts`) are regenerated there and copied over.
+
+Only what v13 diagrams need is ported. The index files, `config/`, and `theme/spec.ts` and
+`theme/theme.ts` are trimmed to that: their header comments say what they leave out. v13
+diagrams read v12's config and v12's theme variables, not v13's.
