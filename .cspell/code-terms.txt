@@ -107,6 +107,8 @@ NODECOUNT
 NODIR
 nonterminal
 NSTR
+oklab
+oklch
 outbase
 outdir
 Qcontrolx
@@ -128,6 +130,7 @@ sequencenumber
 shrc
 Siebenhaller
 signaltype
+SMIL
 someclass
 SPACELINE
 SPACELIST
