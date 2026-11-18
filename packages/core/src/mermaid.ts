@@ -10,9 +10,10 @@ import { detectType, detectors, registerLazyLoadedDiagrams } from './diagram-api
 import { addDiagrams } from './diagram-api/diagram-orchestration.js';
 import { loadRegisteredDiagrams } from './diagram-api/loadDiagram.js';
 import type { ExternalDiagramDefinition, SVG, SVGGroup } from './diagram-api/types.js';
-import type { Katex } from './diagrams/common/common.js';
-import { registerKatex } from './diagrams/common/common.js';
+import type { MathRenderer } from './diagrams/common/common.js';
 import type { ParseErrorFunction } from './Diagram.js';
+import type { MathPlugin, MermaidPlugin } from './plugins.js';
+import { registerPlugins } from './plugins.js';
 import type { UnknownDiagramError } from './errors.js';
 import type { InternalHelpers } from './internals.js';
 import { log } from './logger.js';
@@ -30,10 +31,12 @@ export type {
   ExternalDiagramDefinition,
   IconLoader,
   InternalHelpers,
-  Katex,
   LayoutData,
   LayoutLoaderDefinition,
+  MathPlugin,
+  MathRenderer,
   MermaidConfig,
+  MermaidPlugin,
   ParseErrorFunction,
   ParseOptions,
   ParseResult,
@@ -449,7 +452,7 @@ export interface Mermaid {
   init: typeof init;
   run: typeof run;
   registerLayoutLoaders: typeof registerLayoutLoaders;
-  registerKatex: typeof registerKatex;
+  registerPlugins: typeof registerPlugins;
   registerExternalDiagrams: typeof registerExternalDiagrams;
   initialize: typeof initialize;
   contentLoaded: typeof contentLoaded;
@@ -468,7 +471,7 @@ const mermaid: Mermaid = {
   run,
   registerExternalDiagrams,
   registerLayoutLoaders,
-  registerKatex,
+  registerPlugins,
   initialize,
   parseError: undefined,
   contentLoaded,

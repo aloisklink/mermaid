@@ -323,22 +323,22 @@ export const calculateMathMLDimensions = async (text: string, config: MermaidCon
   return dim;
 };
 
-/** The part of KaTeX's API that mermaid uses. */
-export interface Katex {
+/** Renders TeX math (`$$...$$` in labels) to MathML, optionally with an HTML fallback. */
+export interface MathRenderer {
   renderToString(
     tex: string,
     options: { throwOnError: boolean; displayMode: boolean; output: 'mathml' | 'htmlAndMathml' }
   ): string;
 }
 
-let loadKatex: (() => Promise<Katex>) | undefined;
+let loadMathRenderer: (() => Promise<MathRenderer>) | undefined;
 
 /**
- * Registers how to load KaTeX, e.g. from `@mermaid-js/plugin-katex`.
- * Without it, math isn't rendered.
+ * Sets how to load the math renderer. Without it, math isn't rendered.
+ * Use `mermaid.registerPlugins` with a `math` plugin instead of calling this directly.
  */
-export const registerKatex = (loader: () => Promise<Katex>) => {
-  loadKatex = loader;
+export const setMathRendererLoader = (loader: () => Promise<MathRenderer>) => {
+  loadMathRenderer = loader;
 };
 
 const renderKatexUnsanitized = async (text: string, config: MermaidConfig): Promise<string> => {
@@ -350,8 +350,8 @@ const renderKatexUnsanitized = async (text: string, config: MermaidConfig): Prom
     return text.replace(katexRegex, 'MathML is unsupported in this environment.');
   }
 
-  if (loadKatex) {
-    const katex = await loadKatex();
+  if (loadMathRenderer) {
+    const katex = await loadMathRenderer();
     const outputMode =
       config.forceLegacyMathML || (!isMathMLSupported() && config.legacyMathML)
         ? 'htmlAndMathml'

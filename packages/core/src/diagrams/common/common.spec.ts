@@ -5,7 +5,7 @@ import {
   countOccurrence,
   hasBreaks,
   splitBreaks,
-  registerKatex,
+  setMathRendererLoader,
   renderKatexSanitized,
 } from './common.js';
 
@@ -170,7 +170,7 @@ describe('renderKatexSanitized', () => {
   });
 
   it('renders math with the registered KaTeX', async () => {
-    registerKatex(() =>
+    setMathRendererLoader(() =>
       Promise.resolve({ renderToString: (tex, { output }) => `<math>${tex} ${output}</math>` })
     );
     expect(await renderKatexSanitized('$$x$$', config)).toContain('x htmlAndMathml');
