@@ -289,6 +289,7 @@ export default tseslint.config(
       // v13 calls `String()` on unknown values on purpose (as js-yaml does for keys).
       '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
       'unicorn/better-regex': 'off',
       'unicorn/no-for-loop': 'off',
       'unicorn/prefer-spread': 'off',
