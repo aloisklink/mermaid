@@ -1088,6 +1088,9 @@ autonumber <start> <increment>
 
 ## Actor Menus
 
+> **Warning**
+> Actor menus are no longer drawn. `link` and `links` lines still parse, but have no effect.
+
 Actors can have popup-menus containing individualized links to external pages. For example, if an actor represented a web service, useful links might include a link to the service health dashboard, repo containing the code for the service, or a wiki page describing the service.
 
 This can be configured by adding one or more link lines with the format:

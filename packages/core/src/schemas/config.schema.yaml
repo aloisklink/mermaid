@@ -2449,6 +2449,7 @@ $defs: # JSON Schema definition (maybe we should move these to a separate file)
       forceMenus:
         description: |
           forces actor popup menus to always be visible (to support E2E testing).
+          Has no effect: actor menus are no longer drawn.
         type: boolean
         default: false
       bottomMarginAdj:

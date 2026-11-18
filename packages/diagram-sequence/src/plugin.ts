@@ -15,8 +15,7 @@ import { theme } from './theme/table.js';
 /**
  * The sequence diagram plugin (DESIGN §12.1, spec #125): `layoutKind: 'custom'` with its own
  * `SequenceLayout`. `parse` takes the whole source; `layout` measures and places everything;
- * `render` writes the whole `<svg>` document into the writer. The registry loads it from the
- * package's `mermaid` manifest, with the text hook from `./ascii` (#145).
+ * `render` writes the whole `<svg>` document into the writer. `sequenceDetector.ts` loads it.
  */
 export const sequence = {
   id: 'sequence',

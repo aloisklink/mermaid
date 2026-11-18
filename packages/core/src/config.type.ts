@@ -908,6 +908,7 @@ export interface SequenceDiagramConfig extends BaseDiagramConfig {
   mirrorActors?: boolean;
   /**
    * forces actor popup menus to always be visible (to support E2E testing).
+   * Has no effect: actor menus are no longer drawn.
    *
    */
   forceMenus?: boolean;

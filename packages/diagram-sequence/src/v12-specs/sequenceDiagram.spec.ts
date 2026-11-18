@@ -1,81 +1,20 @@
-import { vi } from 'vitest';
-import { setSiteConfig } from '@mermaid-js/core/diagram-api/diagramAPI.js';
-import mermaidAPI from '@mermaid-js/core/mermaidAPI.js';
-import { Diagram } from '@mermaid-js/core/Diagram.js';
-import { SequenceDB } from './sequenceDb.js';
+/* eslint-disable tsdoc/syntax, prefer-const -- generated from v12's JavaScript specs */
+// Ported from mermaid v12 (fa796a943), packages/mermaid/src/diagrams/sequence/sequenceDiagram.spec.js.
+// Copyright (c) 2014 - 2022 Knut Sveidqvist, MIT License.
+// Generated in mermaid-v13 by packages/diagram-sequence/scripts/port-v12-specs.ts.
+// @ts-nocheck -- generated from v12's JavaScript specs
+// cspell:disable
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Diagram, mermaidAPI, parser, SequenceDB, setSiteConfig } from './adapter.js';
+// skipped: when checking the bounds in a sequenceDiagram — asserts v12's internal `bounds` object, which only v12's renderer fills; v13's layout has its own invariants (`sequenceLayoutViolations`)
+// skipped: when rendering a sequenceDiagram APA — asserts v12's internal `bounds` object, which only v12's renderer fills; v13's layout has its own invariants (`sequenceLayoutViolations`)
+// skipped: when rendering a sequenceDiagram with actor mirror activated — asserts v12's internal `bounds` object, which only v12's renderer fills; v13's layout has its own invariants (`sequenceLayoutViolations`)
+// skipped: should have functions used in sequence JISON as own property — checks the methods v12's jison grammar called on its DB; v13 has no jison DB
 
 beforeAll(async () => {
   // Is required to load the sequence diagram
   await Diagram.fromText('sequenceDiagram');
 });
-
-/**
- * Sequence diagrams require their own very special version of a mocked d3 module
- * svgDraw.js uses statements like this with d3 nodes: (note the [0][0])
- *
- *   // in drawText(...)
- *   textHeight += (textElem._groups || textElem)[0][0].getBBox().height;
- */
-vi.mock('d3', () => {
-  const NewD3 = function () {
-    function returnThis() {
-      return this;
-    }
-    return {
-      append: function () {
-        return NewD3();
-      },
-      lower: returnThis,
-      attr: returnThis,
-      style: returnThis,
-      text: returnThis,
-      // [0][0] (below) is required by drawText() in ./svgDraw.js
-      0: {
-        0: {
-          getBBox: function () {
-            return {
-              height: 10,
-              width: 20,
-            };
-          },
-        },
-      },
-    };
-  };
-
-  return {
-    select: function () {
-      return new NewD3();
-    },
-
-    selectAll: function () {
-      return new NewD3();
-    },
-
-    // TODO: In d3 these are CurveFactory types, not strings
-    curveBasis: 'basis',
-    curveBasisClosed: 'basisClosed',
-    curveBasisOpen: 'basisOpen',
-    curveBumpX: 'bumpX',
-    curveBumpY: 'bumpY',
-    curveBundle: 'bundle',
-    curveCardinalClosed: 'cardinalClosed',
-    curveCardinalOpen: 'cardinalOpen',
-    curveCardinal: 'cardinal',
-    curveCatmullRomClosed: 'catmullRomClosed',
-    curveCatmullRomOpen: 'catmullRomOpen',
-    curveCatmullRom: 'catmullRom',
-    curveLinear: 'linear',
-    curveLinearClosed: 'linearClosed',
-    curveMonotoneX: 'monotoneX',
-    curveMonotoneY: 'monotoneY',
-    curveNatural: 'natural',
-    curveStep: 'step',
-    curveStepAfter: 'stepAfter',
-    curveStepBefore: 'stepBefore',
-  };
-});
-// -------------------------------
 
 /**
  * @param conf
@@ -1777,7 +1716,7 @@ link a: Tests @ https://tests.contoso.com/?svc=alice@contoso.com
     expect(destroyedActors.get('c')).toEqual(3);
   });
 });
-describe('when checking the bounds in a sequenceDiagram', function () {
+describe.skip('when checking the bounds in a sequenceDiagram', function () {
   beforeAll(() => {
     let conf = {
       diagramMarginX: 50,
@@ -1911,7 +1850,7 @@ describe('when checking the bounds in a sequenceDiagram', function () {
   });
 });
 
-describe('when rendering a sequenceDiagram APA', function () {
+describe.skip('when rendering a sequenceDiagram APA', function () {
   beforeAll(() => {
     let conf = {
       diagramMarginX: 50,
@@ -2330,7 +2269,7 @@ end`;
   });
 });
 
-describe('when rendering a sequenceDiagram with actor mirror activated', () => {
+describe.skip('when rendering a sequenceDiagram with actor mirror activated', () => {
   beforeAll(() => {
     let conf = {
       diagramMarginX: 50,
@@ -2397,7 +2336,7 @@ describe('sequence db class', () => {
     sequenceDb = new SequenceDB();
   });
   // This is to ensure that functions used in sequence JISON are exposed as function from SequenceDB
-  it('should have functions used in sequence JISON as own property', () => {
+  it.skip('should have functions used in sequence JISON as own property', () => {
     const functionsUsedInParser = [
       'apply',
       'parseBoxData',

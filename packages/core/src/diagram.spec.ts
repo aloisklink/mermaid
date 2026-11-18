@@ -72,10 +72,10 @@ describe('diagram detection', () => {
     `);
     await expect(Diagram.fromText('sequenceDiagram; A-->B')).rejects
       .toThrowErrorMatchingInlineSnapshot(`
-      [Error: Parse error on line 1:
-      ...quenceDiagram; A-->B
-      -----------------------^
-      Expecting 'TXT', got 'NEWLINE']
+      [MermaidError: Error at line 1, column 23: Expected a message text such as \`: Hello\`, got a line break; write a message as \`<from><arrow><to>: <text>\`, e.g. \`Alice->>Bob: Hello\`.
+      1 | sequenceDiagram; A-->B
+        |                       ^
+      Expected: a message text such as \`: Hello\`]
     `);
   });
 
@@ -86,16 +86,14 @@ describe('diagram detection', () => {
   });
 
   test('should consider entity codes when present in diagram definition', async () => {
-    const diagram = await Diagram.fromText(`sequenceDiagram
-    A->>B: I #9829; you!
-    B->>A: I #9829; you #infin; times more!`);
-    // @ts-ignore: we need to add types for sequenceDb which will be done in separate PR
-    const messages = diagram.db?.getMessages?.();
-    if (!messages) {
-      throw new Error('Messages not found!');
-    }
-
-    expect(messages[0].message).toBe('I ﬂ°°9829¶ß you!');
-    expect(messages[1].message).toBe('I ﬂ°°9829¶ß you ﬂ°infin¶ß times more!');
+    const diagram = await Diagram.fromText(
+      'graph TD\n  A[I #9829; you!] --> B[I #9829; you #infin; times more!]'
+    );
+    // @ts-expect-error: DiagramDB does not declare the flowchart's getVertices
+    const vertices: Map<string, { text: string }> = diagram.db.getVertices();
+    expect([...vertices.values()].map((v) => v.text)).toEqual([
+      'I ﬂ°°9829¶ß you!',
+      'I ﬂ°°9829¶ß you ﬂ°infin¶ß times more!',
+    ]);
   });
 });

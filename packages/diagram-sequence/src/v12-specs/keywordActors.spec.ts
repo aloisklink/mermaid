@@ -1,14 +1,17 @@
+// Ported from mermaid v12 (fa796a943), packages/mermaid/src/diagrams/sequence/keywordActors.spec.ts.
+// Copyright (c) 2014 - 2022 Knut Sveidqvist, MIT License.
+// Generated in mermaid-v13 by packages/diagram-sequence/scripts/port-v12-specs.ts.
+// @ts-nocheck -- generated from v12's JavaScript specs
+// cspell:disable
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import { Diagram, mermaidAPI, parser, SequenceDB, setSiteConfig } from './adapter.js';
+// skipped: parses a details statement — reads the menu from a DOM element; v13 keeps the element id on the AST for plugin-interactions (D105)
 /**
  * Regression tests for actor-menu keyword names (`link`, `links`, `properties`,
  * `details`) used as participant ids. The keywords are only lexed as statement
  * starters when an actor follows them, so references like `A->>Link: hello`
  * fall through to the ACTOR rule instead of colliding with the directive.
  */
-import { describe, expect, it } from 'vitest';
-import { jsdomIt } from '@mermaid-js/core/tests/util.js';
-// @ts-ignore: JISON doesn't support types
-import parser from './parser/sequenceDiagram.jison';
-import { SequenceDB } from './sequenceDb.js';
 
 const parse = (text: string): SequenceDB => {
   const db = new SequenceDB();
@@ -121,7 +124,7 @@ describe('actor-menu statements still parse', () => {
     expect(db.getActor('A').properties).toEqual({ color: 'red' });
   });
 
-  jsdomIt('parses a details statement', ({ body }) => {
+  it.skip('parses a details statement', ({ body }) => {
     body
       .append('script')
       .attr('type', 'application/json')

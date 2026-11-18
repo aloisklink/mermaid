@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test';
 import { imgSnapshotTest, renderGraph } from '../../../helpers/util.ts';
 
 test.describe('Sequence diagram', () => {
@@ -46,11 +46,9 @@ test.describe('Sequence diagram', () => {
   });
 
   test.describe('links', () => {
-    // Not convertible even ignoring the assertions below: this test .click()s
-    // an element twice to toggle a popup open/closed, which is interactive
-    // behavior a static screenshot fixture can't express.
+    // Actor menus are no longer drawn, so this only checks that `link` lines still render.
     test('should support actor links', async ({ page }, testInfo) => {
-      await renderGraph(
+      await imgSnapshotTest(
         page,
         testInfo,
         `
@@ -64,10 +62,6 @@ test.describe('Sequence diagram', () => {
       `,
         { securityLevel: 'loose' }
       );
-      await page.locator('#root-0').click();
-      await expect(page.locator('#actor0_popup')).toHaveAttribute('style', 'display: block;');
-      await page.locator('#root-0').click();
-      await expect(page.locator('#actor0_popup')).toHaveAttribute('style', 'display: none;');
     });
 
     // The %%{init}%% directive (forceMenus / hideUnusedParticipants) overrides the

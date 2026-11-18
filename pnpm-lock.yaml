@@ -695,19 +695,9 @@ importers:
 
   packages/diagram-sequence:
     dependencies:
-      '@braintree/sanitize-url':
-        specifier: ^7.1.2
-        version: 7.1.2
       '@mermaid-js/core':
         specifier: workspace:^
         version: link:../core
-      d3:
-        specifier: ^7.9.0
-        version: 7.9.0
-    devDependencies:
-      '@types/d3':
-        specifier: ^7.4.3
-        version: 7.4.3
 
   packages/diagram-state:
     dependencies:
