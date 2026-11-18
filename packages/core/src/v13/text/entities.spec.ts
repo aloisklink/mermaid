@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { decodeEntities } from './entities.js';
+import { decodeEntities } from './index.js';
 
 describe('decodeEntities', () => {
   it('decodes the ASCII punctuation names authors use to escape syntax (#396)', () => {

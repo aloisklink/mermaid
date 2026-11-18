@@ -70,6 +70,7 @@ GENERICTYPE
 grammr
 graphtype
 halign
+hhea
 iife
 instrumenter
 interp
@@ -80,6 +81,7 @@ JDBC
 jison
 Kaufmann
 keyify
+kinsoku
 LABELPOS
 LABELTYPE
 layoutstop
