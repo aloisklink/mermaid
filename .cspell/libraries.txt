@@ -43,6 +43,7 @@ jsonschema
 katex
 khroma
 langium
+Lezer
 libavoid
 mathml
 matplotlib
