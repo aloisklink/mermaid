@@ -14,3 +14,7 @@ Generated files (such as `parser-kit/unicode-table.ts`) are regenerated there an
 Only what v13 diagrams need is ported. The index files, `config/`, and `theme/spec.ts` and
 `theme/theme.ts` are trimmed to that: their header comments say what they leave out. v13
 diagrams read v12's config and v12's theme variables, not v13's.
+
+v13 code uses v12's `securityLevel` values. mermaid-v13's `default` and `strict` levels are
+`strict` and `stricter` here; URL checks treat every level but `stricter` as `strict`
+(`svg/url.ts`).

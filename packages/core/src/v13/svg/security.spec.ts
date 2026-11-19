@@ -76,7 +76,7 @@ function document(
   w.close();
 }
 
-const LEVELS: SecurityLevel[] = ['default', 'strict'];
+const LEVELS: SecurityLevel[] = ['strict', 'stricter'];
 
 describe('v12 XSS/GHSA cases', () => {
   for (const c of V12_XSS_CASES) {
@@ -112,7 +112,7 @@ describe('hostile payloads', () => {
 
   it('never write <style> in default output', () => {
     const w = streamWriter();
-    document(w, { text: PAYLOADS, urls: PAYLOADS, styles: PAYLOADS, values: PAYLOADS }, 'default');
+    document(w, { text: PAYLOADS, urls: PAYLOADS, styles: PAYLOADS, values: PAYLOADS }, 'strict');
     const out = w.finish();
     expect(out).not.toContain('<style');
     // @ts-expect-error -- <style> is not a tag the writer knows
@@ -204,10 +204,10 @@ describe('assertInert', () => {
     });
   }
 
-  it('refuses scheme links at the strict level', () => {
+  it('refuses scheme links at the stricter level', () => {
     const svg = '<a href="https://example.com"/>';
     expect(inertProblem(svg)).toBeUndefined();
-    expect(inertProblem(svg, { securityLevel: 'strict' })).toMatch(/scheme/);
+    expect(inertProblem(svg, { securityLevel: 'stricter' })).toMatch(/scheme/);
   });
 
   it('re-checks output after a postRender hook edits the tree', () => {

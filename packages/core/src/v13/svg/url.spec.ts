@@ -60,7 +60,7 @@ const REFUSED_ALWAYS = [
   '<script></script>JavaScript:xssAttack`1`',
 ];
 
-describe('checkUrl at the default security level', () => {
+describe('checkUrl at the strict security level', () => {
   for (const url of ALLOWED_DEFAULT) {
     it(`keeps ${JSON.stringify(url)}`, () => {
       expect(checkUrl(url, {})).toBe(url);
@@ -87,10 +87,10 @@ describe('checkUrl at the default security level', () => {
   });
 });
 
-describe('checkUrl at the strict security level', () => {
+describe('checkUrl at the stricter security level', () => {
   it('keeps relative links only', () => {
     for (const url of ['click.html', './a', '/b', '#c', '?d=1']) {
-      expect(checkUrl(url, { securityLevel: 'strict' })).toBe(url);
+      expect(checkUrl(url, { securityLevel: 'stricter' })).toBe(url);
     }
     for (const url of [
       'https://example.com',
@@ -98,24 +98,25 @@ describe('checkUrl at the strict security level', () => {
       'http://x',
       ...REFUSED_ALWAYS,
     ]) {
-      expect(checkUrl(url, { securityLevel: 'strict' }), url).toBeUndefined();
+      expect(checkUrl(url, { securityLevel: 'stricter' }), url).toBeUndefined();
     }
   });
 });
 
 describe('resolveSecurityLevel', () => {
-  it('keeps default and strict', () => {
+  it("keeps v12's levels, and treats unset as strict", () => {
     const { warnings, warn } = collect();
-    expect(resolveSecurityLevel(undefined, warn)).toBe('default');
-    expect(resolveSecurityLevel('default', warn)).toBe('default');
-    expect(resolveSecurityLevel('strict', warn)).toBe('strict');
+    for (const level of ['strict', 'stricter', 'loose', 'antiscript', 'sandbox']) {
+      expect(resolveSecurityLevel(level, warn)).toBe(level);
+    }
+    expect(resolveSecurityLevel(undefined, warn)).toBe('strict');
     expect(warnings).toEqual([]);
   });
 
-  it('treats the removed v12 levels as default, with a warning', () => {
-    for (const level of ['loose', 'antiscript', 'sandbox', 'bogus', 42]) {
+  it('treats unknown levels as strict, with a warning', () => {
+    for (const level of ['default', 'bogus', 42]) {
       const { warnings, warn } = collect();
-      expect(resolveSecurityLevel(level, warn)).toBe('default');
+      expect(resolveSecurityLevel(level, warn)).toBe('strict');
       expect(warnings.map((w) => w.code)).toEqual(['SECURITY_LEVEL']);
     }
   });

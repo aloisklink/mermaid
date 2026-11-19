@@ -1,9 +1,12 @@
 import { beforeAll, describe, expect, it } from 'vitest';
+import type { MermaidConfig } from '../config.type.js';
 import mermaid from '../mermaid.js';
 import { DEFAULT_LIMITS, type Limits } from '../v13/limits/index.js';
+import type { SecurityLevel } from '../v13/svg/url.js';
 import type { DiagramDefinitionV13 } from './types.js';
 
 let parsedWith: Limits | undefined;
+let renderedWith: SecurityLevel | undefined;
 
 interface Model {
   readonly labels: string[];
@@ -38,6 +41,7 @@ const boxes: DiagramDefinitionV13<Model, { width: number }> = {
   },
   layout: (model) => ({ width: 100 * model.labels.length }),
   render(model, layout, ctx, w) {
+    renderedWith = ctx.securityLevel;
     const fill = ctx.theme.color('mainBkg');
     w.open('svg', {
       xmlns: 'http://www.w3.org/2000/svg',
@@ -86,6 +90,22 @@ describe('DiagramDefinitionV13', () => {
       '%%{init: {"theme": "base", "themeVariables": {"mainBkg": "#123456"}}}%%\nboxesV13\nx'
     );
     expect(svg).toContain('fill="#123456"');
+  });
+
+  it("draws with v12's security level", async () => {
+    const levelOf = async (securityLevel: MermaidConfig['securityLevel']) => {
+      mermaid.initialize({ securityLevel });
+      renderedWith = undefined;
+      await mermaid.render('v13-level', 'boxesV13\nx');
+      return renderedWith;
+    };
+    try {
+      for (const level of ['strict', 'stricter', 'loose', 'antiscript'] as const) {
+        expect(await levelOf(level)).toBe(level);
+      }
+    } finally {
+      mermaid.initialize({ securityLevel: 'strict' });
+    }
   });
 
   it("keeps v13's edge limit: v12's `maxEdges` is for flowcharts", async () => {

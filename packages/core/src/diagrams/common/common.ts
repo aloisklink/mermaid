@@ -70,7 +70,12 @@ export const removeScript = (txt: string): string => {
 const sanitizeMore = (text: string, config: MermaidConfig) => {
   if (getEffectiveHtmlLabels(config)) {
     const level = config.securityLevel;
-    if (level === 'antiscript' || level === 'strict' || level === 'sandbox') {
+    if (
+      level === 'antiscript' ||
+      level === 'strict' ||
+      level === 'stricter' ||
+      level === 'sandbox'
+    ) {
       text = removeScript(text);
     } else if (level !== 'loose') {
       text = breakToPlaceholder(text);

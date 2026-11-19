@@ -10,7 +10,7 @@
 
 # Interface: MathRenderer
 
-Defined in: [packages/core/src/diagrams/common/common.ts:327](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/diagrams/common/common.ts#L327)
+Defined in: [packages/core/src/diagrams/common/common.ts:332](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/diagrams/common/common.ts#L332)
 
 Renders TeX math (`$$...$$` in labels) to MathML, optionally with an HTML fallback.
 
@@ -20,7 +20,7 @@ Renders TeX math (`$$...$$` in labels) to MathML, optionally with an HTML fallba
 
 > **renderToString**(`tex`, `options`): `string`
 
-Defined in: [packages/core/src/diagrams/common/common.ts:328](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/diagrams/common/common.ts#L328)
+Defined in: [packages/core/src/diagrams/common/common.ts:333](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/diagrams/common/common.ts#L333)
 
 #### Parameters
 

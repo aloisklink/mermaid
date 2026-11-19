@@ -9,6 +9,7 @@ import { errorFromDiagnostics } from '../v13/pipeline/errors.js';
 import type { RenderContext, Warning } from '../v13/pipeline/types.js';
 import type { ParseResult } from '../v13/parser-kit/result.js';
 import { preprocess } from '../v13/preprocess/index.js';
+import { resolveSecurityLevel } from '../v13/svg/url.js';
 import { streamWriter } from '../v13/svg/writer.js';
 import { getConfig } from './diagramAPI.js';
 import { themeFromV12 } from './themeV13.js';
@@ -95,8 +96,7 @@ export function fromDefinitionV13(definition: DiagramDefinitionV13): DiagramDefi
           measurer: selectMeasurer(),
           units: pxProfile,
           theme: themeFromV12(config, definition.theme),
-          // v13's `strict` refuses all absolute links. The SVG writer allow-lists its output at every level.
-          securityLevel: 'default',
+          securityLevel: resolveSecurityLevel(config.securityLevel, warn),
           idPrefix: id,
           version,
           limits,

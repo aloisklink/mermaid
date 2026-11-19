@@ -11,7 +11,7 @@ describe('checkImageUrl (R-SEC-2)', () => {
       expect(checkImageUrl(url, {})).toBe(url);
   });
 
-  it('refuses svg data URLs, mail and script schemes, and http under strict', () => {
+  it('refuses svg data URLs, mail and script schemes, and http under stricter', () => {
     const warnings: string[] = [];
     const warn = (w: { code: string }) => void warnings.push(w.code);
     for (const url of [
@@ -21,8 +21,8 @@ describe('checkImageUrl (R-SEC-2)', () => {
       'javascript:alert(1)',
     ])
       expect(checkImageUrl(url, { warn })).toBeUndefined();
-    expect(checkImageUrl('https://x.test/a.png', { securityLevel: 'strict' })).toBeUndefined();
-    expect(checkImageUrl(PNG, { securityLevel: 'strict' })).toBe(PNG);
+    expect(checkImageUrl('https://x.test/a.png', { securityLevel: 'stricter' })).toBeUndefined();
+    expect(checkImageUrl(PNG, { securityLevel: 'stricter' })).toBe(PNG);
     expect(warnings).toEqual(['URL_REFUSED', 'URL_REFUSED', 'URL_REFUSED', 'URL_REFUSED']);
   });
 

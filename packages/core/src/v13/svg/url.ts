@@ -8,14 +8,18 @@
  * allow-list, checked on both the raw and the percent-decoded form, and network paths
  * (`//host`, `\\host`) are refused.
  */
+import type { MermaidConfig } from '../../config.type.js';
 import { LINK_TARGETS } from './allowlist.js';
 import type { LinkTarget, SafeUrl, Warn } from './types.js';
 
-/** The two v13 security levels. */
-export type SecurityLevel = 'default' | 'strict';
+/**
+ * `config.securityLevel`. mermaid-v13's `default` and `strict` levels are `strict` and
+ * `stricter` here. URL checks treat every level but `stricter` as `strict`.
+ */
+export type SecurityLevel = NonNullable<MermaidConfig['securityLevel']>;
 
 export interface UrlOptions {
-  /** `default`: http, https, mailto and relative. `strict`: relative only. */
+  /** `stricter`: relative only. Any other level: http, https, mailto and relative. */
   readonly securityLevel?: SecurityLevel;
   /** Integrator-only replacement for the default scheme list (lowercase, without `:`). */
   readonly linkSchemes?: readonly string[];
@@ -23,22 +27,24 @@ export interface UrlOptions {
 }
 
 const DEFAULT_SCHEMES: readonly string[] = ['http', 'https', 'mailto'];
-const V12_LEVELS: ReadonlySet<string> = new Set(['loose', 'antiscript', 'sandbox']);
+const LEVELS: ReadonlySet<unknown> = new Set<SecurityLevel>([
+  'strict',
+  'stricter',
+  'loose',
+  'antiscript',
+  'sandbox',
+]);
 
-/**
- * Maps a configured `securityLevel` to one of the two v13 levels. The other v12 values
- * are treated as the default, with a warning.
- */
+/** `config.securityLevel`, or `strict` when it is unset or unknown (an unknown value warns). */
 export function resolveSecurityLevel(value: unknown, warn?: Warn): SecurityLevel {
-  if (value === undefined || value === 'default') return 'default';
-  if (value === 'strict') return 'strict';
-  warn?.({
-    code: 'SECURITY_LEVEL',
-    message: V12_LEVELS.has(String(value))
-      ? `securityLevel "${String(value)}" is no longer supported and is treated as the default level.`
-      : `Unknown securityLevel ${JSON.stringify(value)}; using the default level.`,
-  });
-  return 'default';
+  if (LEVELS.has(value)) return value as SecurityLevel;
+  if (value !== undefined) {
+    warn?.({
+      code: 'SECURITY_LEVEL',
+      message: `Unknown securityLevel ${JSON.stringify(value)}; using strict.`,
+    });
+  }
+  return 'strict';
 }
 
 // C0/C1 controls, spaces that render as nothing (U+2000-U+200D), BOM, lone surrogates and
@@ -128,7 +134,7 @@ function allowed(url: string, schemes: readonly string[]): boolean {
  */
 export function checkUrl(url: string, options: UrlOptions): SafeUrl | undefined {
   const schemes =
-    options.securityLevel === 'strict' ? [] : (options.linkSchemes ?? DEFAULT_SCHEMES);
+    options.securityLevel === 'stricter' ? [] : (options.linkSchemes ?? DEFAULT_SCHEMES);
   const kept = typeof url === 'string' ? unwrap(url, false) : undefined;
   const decoded = typeof url === 'string' ? unwrap(url, true) : undefined;
   if (kept && decoded !== undefined && allowed(kept, schemes) && allowed(decoded, schemes)) {
@@ -137,7 +143,7 @@ export function checkUrl(url: string, options: UrlOptions): SafeUrl | undefined 
   options.warn?.({
     code: 'URL_REFUSED',
     message: `The link ${JSON.stringify(String(url).slice(0, 200))} was removed: ${
-      options.securityLevel === 'strict'
+      options.securityLevel === 'stricter'
         ? 'only relative links are allowed'
         : `only ${schemes.join(', ')} and relative links are allowed`
     }.`,
@@ -154,14 +160,14 @@ export function isImageDataUrl(url: string): boolean {
 }
 
 /**
- * Checks an image source (`<image href>`): relative, `http`/`https` (not under `strict`), or a
+ * Checks an image source (`<image href>`): relative, `http`/`https` (not under `stricter`), or a
  * raster data URL. Mail and integrator link schemes are for links, not images.
  */
 export function checkImageUrl(
   url: string,
   options: Pick<UrlOptions, 'securityLevel' | 'warn'>
 ): SafeUrl | undefined {
-  const schemes = options.securityLevel === 'strict' ? [] : ['http', 'https'];
+  const schemes = options.securityLevel === 'stricter' ? [] : ['http', 'https'];
   const kept = typeof url === 'string' ? unwrap(url, false) : undefined;
   const decoded = typeof url === 'string' ? unwrap(url, true) : undefined;
   if (kept && decoded !== undefined) {
@@ -171,7 +177,7 @@ export function checkImageUrl(
   options.warn?.({
     code: 'URL_REFUSED',
     message: `The image ${JSON.stringify(String(url).slice(0, 200))} was removed: ${
-      options.securityLevel === 'strict'
+      options.securityLevel === 'stricter'
         ? 'only relative and data:image sources are allowed'
         : 'only http, https, relative and data:image (png, jpeg, gif, webp) sources are allowed'
     }.`,

@@ -275,13 +275,13 @@ function browserView(value: string): string {
 }
 
 function hrefProblem(tag: string, value: string, options: InertOptions): string | undefined {
-  const strict = options.securityLevel === 'strict';
+  const stricter = options.securityLevel === 'stricter';
   const image = tag === 'image';
   const seen = browserView(value);
   // An image source follows checkImageUrl: raster data URLs, and no mail or link schemes.
   if (image && isImageDataUrl(seen) && isImageDataUrl(decodePercent(seen))) return undefined;
   let schemes: readonly string[] = options.linkSchemes ?? ['http', 'https', 'mailto'];
-  if (strict) schemes = [];
+  if (stricter) schemes = [];
   else if (image) schemes = ['http', 'https'];
   for (const form of [seen, browserView(decodePercent(seen))]) {
     if (RE_NETWORK_PATH.test(form)) return `href="${value}" is a network path`;
