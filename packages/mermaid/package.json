@@ -103,6 +103,7 @@
     "@mermaid-js/diagram-xychart": "workspace:^",
     "@mermaid-js/layout-cose-bilkent": "workspace:^",
     "@mermaid-js/layout-elk": "workspace:^",
+    "@mermaid-js/plugin-interactions": "workspace:^",
     "@mermaid-js/plugin-katex": "workspace:^"
   },
   "devDependencies": {

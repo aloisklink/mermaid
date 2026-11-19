@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { imgSnapshotTest, renderGraph } from '../../../helpers/util.ts';
 
 test.describe('Sequence diagram', () => {
@@ -46,9 +46,10 @@ test.describe('Sequence diagram', () => {
   });
 
   test.describe('links', () => {
-    // Actor menus are no longer drawn, so this only checks that `link` lines still render.
+    // Clicks the actor twice to toggle its HTML menu open and shut, which a
+    // static screenshot fixture can't express.
     test('should support actor links', async ({ page }, testInfo) => {
-      await imgSnapshotTest(
+      await renderGraph(
         page,
         testInfo,
         `
@@ -62,6 +63,18 @@ test.describe('Sequence diagram', () => {
       `,
         { securityLevel: 'loose' }
       );
+      const actor = page.locator('svg g.actor-top[data-id="Alice"]');
+      const menu = page.locator('div.actorPopupMenu[data-menu-for="Alice"]');
+      await expect(menu).toBeHidden();
+      await actor.click();
+      await expect(menu).toBeVisible();
+      await expect(menu.locator('a')).toHaveText(['Dashboard', 'Wiki']);
+      await expect(menu.locator('a').first()).toHaveAttribute(
+        'href',
+        'https://dashboard.contoso.com/alice'
+      );
+      await actor.click();
+      await expect(menu).toBeHidden();
     });
 
     // The %%{init}%% directive (forceMenus / hideUnusedParticipants) overrides the

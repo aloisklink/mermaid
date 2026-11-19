@@ -48,7 +48,8 @@
     "@mermaid-js/diagram-usecase": "workspace:^",
     "@mermaid-js/diagram-venn": "workspace:^",
     "@mermaid-js/diagram-wardley": "workspace:^",
-    "@mermaid-js/diagram-xychart": "workspace:^"
+    "@mermaid-js/diagram-xychart": "workspace:^",
+    "@mermaid-js/plugin-interactions": "workspace:^"
   },
   "files": [
     "dist/",

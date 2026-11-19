@@ -2,7 +2,7 @@
 
 Sequence diagram actor menus (`link`, `links`, `properties`, `details`), ported from [mermaid-v13](https://github.com/mermaid-js/mermaid-v13/tree/87edaac12eb324c461caf6b923f4d50390dcf9b3/packages/plugin-interactions)'s interactions plugin without its click callbacks.
 
-Register it to turn the menus on:
+`mermaid` and `@mermaid-js/tiny` register it already. With `@mermaid-js/core`, register it yourself:
 
 ```js
 import mermaid from '@mermaid-js/core';

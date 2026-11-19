@@ -1088,9 +1088,6 @@ autonumber <start> <increment>
 
 ## Actor Menus
 
-> **Warning**
-> Actor menus are no longer drawn. `link` and `links` lines still parse, but have no effect.
-
 Actors can have popup-menus containing individualized links to external pages. For example, if an actor represented a web service, useful links might include a link to the service health dashboard, repo containing the code for the service, or a wiki page describing the service.
 
 This can be configured by adding one or more link lines with the format:
@@ -1124,6 +1121,12 @@ sequenceDiagram
     John-->>Alice: Great!
     Alice-)John: See you later!
 ```
+
+Click an actor to open or close its menu. Unlike v12, each menu is an HTML `div.actorPopupMenu` placed after the diagram's `<svg>`, with `data-menu-for` set to the actor's id. Because it is outside the SVG, it is missing from the SVG markup and exported images, and it is not shown with `securityLevel: 'sandbox'`. Menus also do not follow the diagram's theme.
+
+Menu links must be `http`, `https`, `mailto` or relative (only relative with `securityLevel: 'stricter'`). Any other link becomes `about:blank`.
+
+`mermaid.run` adds the menus. After `mermaid.render`, call the returned `bindFunctions(element)` on the element that holds the SVG.
 
 #### Advanced Menu Syntax
 

@@ -937,6 +937,9 @@ importers:
       '@mermaid-js/layout-elk':
         specifier: workspace:^
         version: link:../mermaid-layout-elk
+      '@mermaid-js/plugin-interactions':
+        specifier: workspace:^
+        version: link:../plugin-interactions
       '@mermaid-js/plugin-katex':
         specifier: workspace:^
         version: link:../plugin-katex
@@ -1320,6 +1323,9 @@ importers:
       '@mermaid-js/diagram-xychart':
         specifier: workspace:^
         version: link:../diagram-xychart
+      '@mermaid-js/plugin-interactions':
+        specifier: workspace:^
+        version: link:../plugin-interactions
 
   tests/release-verification:
     devDependencies:
