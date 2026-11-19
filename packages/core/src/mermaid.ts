@@ -18,7 +18,7 @@ import type {
 } from './diagram-api/types.js';
 import type { MathRenderer } from './diagrams/common/common.js';
 import type { ParseErrorFunction } from './Diagram.js';
-import type { MathPlugin, MermaidPlugin } from './plugins.js';
+import type { ExtensionPluginV13, MathPlugin, MermaidPlugin } from './plugins.js';
 import { registerPlugins } from './plugins.js';
 import type { UnknownDiagramError } from './errors.js';
 import type { InternalHelpers } from './internals.js';
@@ -35,6 +35,7 @@ export type {
   AnyExternalDiagramDefinition,
   AsyncIconLoader,
   DetailedError,
+  ExtensionPluginV13,
   ExternalDiagramDefinition,
   ExternalDiagramDefinitionV13,
   IconLoader,

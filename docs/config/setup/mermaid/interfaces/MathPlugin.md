@@ -10,7 +10,7 @@
 
 # Interface: MathPlugin
 
-Defined in: packages/core/src/plugins.ts:5
+Defined in: [packages/core/src/plugins.ts:6](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/plugins.ts#L6)
 
 Renders math (`$$...$$`) in diagram labels as MathML.
 
@@ -20,7 +20,7 @@ Renders math (`$$...$$`) in diagram labels as MathML.
 
 > **loader**: () => `Promise`<[`MathRenderer`](MathRenderer.md)>
 
-Defined in: packages/core/src/plugins.ts:8
+Defined in: [packages/core/src/plugins.ts:9](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/plugins.ts#L9)
 
 Lazily loads the math renderer.
 
@@ -34,4 +34,4 @@ Lazily loads the math renderer.
 
 > **type**: `"math"`
 
-Defined in: packages/core/src/plugins.ts:6
+Defined in: [packages/core/src/plugins.ts:7](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/plugins.ts#L7)

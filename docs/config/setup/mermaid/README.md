@@ -15,6 +15,7 @@
 - [AnyExternalDiagramDefinition](interfaces/AnyExternalDiagramDefinition.md)
 - [AsyncIconLoader](interfaces/AsyncIconLoader.md)
 - [DetailedError](interfaces/DetailedError.md)
+- [ExtensionPluginV13](interfaces/ExtensionPluginV13.md)
 - [ExternalDiagramDefinition](interfaces/ExternalDiagramDefinition.md)
 - [ExternalDiagramDefinitionV13](interfaces/ExternalDiagramDefinitionV13.md)
 - [LayoutData](interfaces/LayoutData.md)

@@ -1,6 +1,7 @@
 import type { MermaidConfig } from '../config.type.js';
 import type { Diagram } from '../Diagram.js';
 import { log } from '../logger.js';
+import { type ExtensionRenderResult, getExtensionsV13 } from '../plugins.js';
 import { selectSvgElement } from '../rendering-util/selectSvgElement.js';
 import { checkOutput, checkSource, type Limits, resolveLimits } from '../v13/limits/index.js';
 import { pxProfile } from '../v13/layout/units.js';
@@ -17,10 +18,35 @@ import type { DiagramDB, DiagramDefinition, DiagramDefinitionV13 } from './types
 
 const warn = (w: Warning): void => log.warn(`${w.code}: ${w.message}`);
 
-/** Holds a parse result until `draw`. */
+/** Holds a parse result until `draw`, and the `bindFunctions` that `draw` sets. */
 class DiagramV13DB implements DiagramDB {
   readonly parsesRawSource = true;
   parsed?: { result: ParseResult<unknown>; config: MermaidConfig; limits: Readonly<Limits> };
+}
+
+/** A registered extension and its scratch state for one render. */
+interface ExtensionRun {
+  extension: ReturnType<typeof getExtensionsV13>[number];
+  state: Record<string, unknown>;
+}
+
+/**
+ * The `bindFunctions` that runs the extensions' `afterMount` hooks, or `undefined` when none has
+ * one. Built outside `draw` so that the returned closure does not keep `draw`'s locals alive.
+ */
+function afterMountHooks(
+  runs: readonly ExtensionRun[],
+  result: ExtensionRenderResult
+): DiagramDB['bindFunctions'] {
+  const mounts = runs.filter(({ extension }) => extension.afterMount !== undefined);
+  if (mounts.length === 0) {
+    return undefined;
+  }
+  return (element) => {
+    for (const { extension, state } of mounts) {
+      extension.afterMount?.(element, result, state);
+    }
+  };
 }
 
 /** Moves the attributes and children of `markup`'s root into v12's `<svg id>`, keeping v12's `<style>`. */
@@ -67,7 +93,8 @@ export function fromDefinitionV13(definition: DiagramDefinitionV13): DiagramDefi
       const limits = resolveLimits({ maxTextSize: config.maxTextSize });
       checkSource(text, limits);
       const preprocessed = preprocess(text);
-      const result = definition.parse(text, { config, preprocessed, limits });
+      const claims = getExtensionsV13().flatMap((extension) => extension.claims ?? []);
+      const result = definition.parse(text, { config, preprocessed, claims, limits });
       const diagnostics = [...preprocessed.diagnostics, ...result.diagnostics];
       const error = errorFromDiagnostics(text, diagnostics);
       if (error) {
@@ -106,12 +133,21 @@ export function fromDefinitionV13(definition: DiagramDefinitionV13): DiagramDefi
           },
           warn,
         };
+        const runs: ExtensionRun[] = getExtensionsV13().map((extension) => ({
+          extension,
+          state: {},
+        }));
+        let ast = result.ast;
+        for (const { extension, state } of runs) {
+          ast = extension.postParse?.(ast, { ...ctx, diagram: definition.id, state }) ?? ast;
+        }
         const layout = definition.layout?.(result.model, ctx);
         const w = streamWriter({ idPrefix: () => id });
         definition.render(result.model, layout, ctx, w);
         const svg = w.finish();
         checkOutput(svg, limits);
         mountSvg(id, svg);
+        diagram.db.bindFunctions = afterMountHooks(runs, { svg });
       },
     },
   };

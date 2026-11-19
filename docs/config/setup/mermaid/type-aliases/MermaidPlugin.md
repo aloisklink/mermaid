@@ -10,8 +10,8 @@
 
 # Type Alias: MermaidPlugin
 
-> **MermaidPlugin** = [`MathPlugin`](../interfaces/MathPlugin.md)
+> **MermaidPlugin** = [`MathPlugin`](../interfaces/MathPlugin.md) | [`ExtensionPluginV13`](../interfaces/ExtensionPluginV13.md)
 
-Defined in: packages/core/src/plugins.ts:12
+Defined in: [packages/core/src/plugins.ts:28](https://github.com/mermaid-js/mermaid/blob/master/packages/core/src/plugins.ts#L28)
 
 A plugin that adds optional functionality to mermaid.

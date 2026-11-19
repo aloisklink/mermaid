@@ -3,9 +3,12 @@ import type { MermaidConfig } from '../config.type.js';
 import mermaid from '../mermaid.js';
 import { DEFAULT_LIMITS, type Limits } from '../v13/limits/index.js';
 import type { SecurityLevel } from '../v13/svg/url.js';
+import type { AstNode } from '../v13/parser-kit/ast.js';
+import type { HookContext } from '../v13/pipeline/extensions.js';
 import type { DiagramDefinitionV13 } from './types.js';
 
 let parsedWith: Limits | undefined;
+let claimed: readonly string[] | undefined;
 let renderedWith: SecurityLevel | undefined;
 
 interface Model {
@@ -17,8 +20,9 @@ const boxes: DiagramDefinitionV13<Model, { width: number }> = {
   id: 'boxesV13',
   detector: (text) => /^\s*boxesV13/.test(text),
   layoutKind: 'custom',
-  parse(text, { preprocessed, limits }) {
+  parse(text, { preprocessed, claims, limits }) {
     parsedWith = limits;
+    claimed = claims;
     const lines = text.slice(preprocessed.bodyStart).split('\n').slice(1);
     const start = text.indexOf('!', preprocessed.bodyStart);
     const bad = start >= 0;
@@ -122,5 +126,73 @@ describe('DiagramDefinitionV13', () => {
     await expect(mermaid.parse(text)).rejects.toThrow(
       'Error at line 6, column 8: A box cannot start with !'
     );
+  });
+});
+
+// Extensions stay registered for the rest of this file, so these tests run in order.
+describe('v13 extensions', () => {
+  it('without one, offers no bindFunctions', async () => {
+    const { bindFunctions } = await mermaid.render('v13-plain', 'boxesV13\nx');
+    expect(bindFunctions).toBeUndefined();
+    expect(claimed).toEqual([]);
+  });
+
+  it('runs postParse while drawing, and afterMount from bindFunctions with the same state', async () => {
+    const seen: unknown[] = [];
+    mermaid.registerPlugins([
+      {
+        type: 'extension',
+        extension: {
+          id: 'spy',
+          claims: ['menus'],
+          postParse(ast, ctx) {
+            ctx.state.root = ast.id;
+            seen.push(['postParse', ctx.diagram, ctx.securityLevel, ctx.idPrefix]);
+            return ast;
+          },
+          afterMount(el, result, state) {
+            seen.push(['afterMount', el.id, result.svg.includes('v13-ext-box-0'), state.root]);
+          },
+        },
+      },
+    ]);
+    const { bindFunctions } = await mermaid.render('v13-ext', 'boxesV13\nx');
+    expect(claimed).toEqual(['menus']);
+    expect(seen).toEqual([['postParse', 'boxesV13', 'strict', 'v13-ext']]);
+    const el = document.createElement('div');
+    el.id = 'host';
+    bindFunctions!(el);
+    expect(seen.at(-1)).toEqual(['afterMount', 'host', true, 'root']);
+  });
+
+  it("keeps each render's state, and replaces an extension registered again with its id", async () => {
+    const mounted: unknown[] = [];
+    const counter = (name: string) => ({
+      type: 'extension' as const,
+      extension: {
+        id: 'counter',
+        postParse(ast: AstNode, ctx: HookContext) {
+          ctx.state.render = ctx.idPrefix;
+          return ast;
+        },
+        afterMount(_el: Element, _result: unknown, state: Record<string, unknown>) {
+          mounted.push([name, state.render]);
+        },
+      },
+    });
+    mermaid.registerPlugins([counter('first')]);
+    const a = await mermaid.render('v13-a', 'boxesV13\nx');
+    const b = await mermaid.render('v13-b', 'boxesV13\nx');
+    // Registered after both renders: neither runs it.
+    mermaid.registerPlugins([counter('second')]);
+    a.bindFunctions!(document.createElement('div'));
+    b.bindFunctions!(document.createElement('div'));
+    expect(mounted).toEqual([
+      ['first', 'v13-a'],
+      ['first', 'v13-b'],
+    ]);
+    mounted.length = 0;
+    (await mermaid.render('v13-c', 'boxesV13\nx')).bindFunctions!(document.createElement('div'));
+    expect(mounted).toEqual([['second', 'v13-c']]);
   });
 });
