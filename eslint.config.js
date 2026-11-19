@@ -280,6 +280,7 @@ export default tseslint.config(
       'packages/core/src/rendering-util/layout-algorithms/layered/**/*.ts',
       'packages/core/src/v13/**/*.ts',
       'packages/diagram-sequence/src/**/*.ts',
+      'packages/plugin-interactions/src/**/*.ts',
     ],
     rules: {
       curly: 'off',

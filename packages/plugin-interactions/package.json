@@ -1,0 +1,48 @@
+{
+  "name": "@mermaid-js/plugin-interactions",
+  "version": "0.0.0",
+  "description": "Sequence diagram actor menus for mermaid",
+  "module": "dist/mermaid-plugin-interactions.core.mjs",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "mermaid-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/mermaid-plugin-interactions.core.mjs",
+      "default": "./dist/mermaid-plugin-interactions.core.mjs"
+    },
+    "./*": "./*"
+  },
+  "keywords": [
+    "diagram",
+    "markdown",
+    "sequence",
+    "mermaid"
+  ],
+  "scripts": {
+    "clean": "rimraf dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mermaid-js/mermaid",
+    "directory": "packages/plugin-interactions"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "dependencies": {
+    "@mermaid-js/core": "workspace:^"
+  },
+  "devDependencies": {
+    "@mermaid-js/diagram-sequence": "workspace:^"
+  },
+  "files": [
+    "dist"
+  ]
+}

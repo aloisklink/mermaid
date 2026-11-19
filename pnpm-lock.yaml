@@ -1206,6 +1206,16 @@ importers:
         specifier: ~4.4.0
         version: 4.4.0
 
+  packages/plugin-interactions:
+    dependencies:
+      '@mermaid-js/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@mermaid-js/diagram-sequence':
+        specifier: workspace:^
+        version: link:../diagram-sequence
+
   packages/plugin-katex:
     dependencies:
       '@mermaid-js/core':
