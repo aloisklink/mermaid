@@ -25,12 +25,17 @@ export const sequence = {
   detector: (text: string): boolean => detectSequence(text),
   parse: (text: string, ctx: DiagramParseContext): SequenceParseResult => {
     const caps = ctx.limits ?? resolveLimits(ctx.config);
-    return parseSequence(text, {
+    const result = parseSequence(text, {
       preprocessed: ctx.preprocessed,
       maxEdges: caps.maxEdges,
       maxNodes: caps.maxNodes,
       maxDepth: caps.maxDepth,
     });
+    // Use the front-matter title unless the diagram has a `title` statement, as v12 does.
+    const title = ctx.preprocessed.frontMatter?.title;
+    return title === undefined || result.model.title !== undefined
+      ? result
+      : { ...result, model: { ...result.model, title } };
   },
   labels: sequenceLabels,
   layout: (model: SequenceModel, ctx: RenderContext): SequenceLayout => layoutSequence(model, ctx),
