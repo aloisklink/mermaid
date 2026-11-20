@@ -346,21 +346,44 @@ export const setMathRendererLoader = (loader: () => Promise<MathRenderer>) => {
   loadMathRenderer = loader;
 };
 
+/** Loads the registered math renderer, or returns `undefined` when there is none. */
+export const loadMath = async (): Promise<MathRenderer | undefined> => loadMathRenderer?.();
+
+/**
+ * KaTeX's `output` for `config`: `'htmlAndMathml'` with `forceLegacyMathML`, or with
+ * `legacyMathML` when the browser has no MathML; otherwise `'mathml'`, or `undefined`
+ * when the browser has no MathML.
+ */
+export const mathOutput = (config: MermaidConfig): 'mathml' | 'htmlAndMathml' | undefined => {
+  if (config.forceLegacyMathML || (!isMathMLSupported() && config.legacyMathML)) {
+    return 'htmlAndMathml';
+  }
+  return isMathMLSupported() ? 'mathml' : undefined;
+};
+
+/** `tex` as KaTeX MathML (with an HTML fallback for `htmlAndMathml`), without its TeX annotation. */
+export const typesetMath = (
+  katex: MathRenderer,
+  tex: string,
+  output: 'mathml' | 'htmlAndMathml'
+): string =>
+  katex
+    .renderToString(tex, { throwOnError: true, displayMode: true, output })
+    .replace(/\n/g, ' ')
+    .replace(/<annotation.*<\/annotation>/g, '');
+
 const renderKatexUnsanitized = async (text: string, config: MermaidConfig): Promise<string> => {
   if (!hasKatex(text)) {
     return text;
   }
 
-  if (!(isMathMLSupported() || config.legacyMathML || config.forceLegacyMathML)) {
+  const outputMode = mathOutput(config);
+  if (!outputMode) {
     return text.replace(katexRegex, 'MathML is unsupported in this environment.');
   }
 
-  if (loadMathRenderer) {
-    const katex = await loadMathRenderer();
-    const outputMode =
-      config.forceLegacyMathML || (!isMathMLSupported() && config.legacyMathML)
-        ? 'htmlAndMathml'
-        : 'mathml';
+  const katex = await loadMath();
+  if (katex) {
     return text
       .split(lineBreakRegex)
       .map((line) =>
@@ -369,16 +392,7 @@ const renderKatexUnsanitized = async (text: string, config: MermaidConfig): Prom
           : `<div>${line}</div>`
       )
       .join('')
-      .replace(katexRegex, (_, c) =>
-        katex
-          .renderToString(c, {
-            throwOnError: true,
-            displayMode: true,
-            output: outputMode,
-          })
-          .replace(/\n/g, ' ')
-          .replace(/<annotation.*<\/annotation>/g, '')
-      );
+      .replace(katexRegex, (_, c: string) => typesetMath(katex, c, outputMode));
   }
 
   // No KaTeX loader registered, which is always the case in tiny.

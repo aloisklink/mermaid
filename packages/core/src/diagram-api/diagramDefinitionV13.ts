@@ -12,7 +12,9 @@ import type { ParseResult } from '../v13/parser-kit/result.js';
 import { preprocess } from '../v13/preprocess/index.js';
 import { resolveSecurityLevel } from '../v13/svg/url.js';
 import { streamWriter } from '../v13/svg/writer.js';
+import { inlineSpans } from '../v13/text/inline.js';
 import { getConfig } from './diagramAPI.js';
+import { mathV13 } from './mathV13.js';
 import { themeFromV12 } from './themeV13.js';
 import type { DiagramDB, DiagramDefinition, DiagramDefinitionV13 } from './types.js';
 
@@ -50,7 +52,7 @@ function afterMountHooks(
 }
 
 /** Moves the attributes and children of `markup`'s root into v12's `<svg id>`, keeping v12's `<style>`. */
-function mountSvg(id: string, markup: string): void {
+function mountSvg(id: string, markup: string): SVGSVGElement {
   const target = selectSvgElement(id).node();
   if (!target) {
     throw new Error(`No <svg> element with id "${id}" to draw into`);
@@ -82,6 +84,7 @@ function mountSvg(id: string, markup: string): void {
       target.setAttribute(aria, element.id);
     }
   }
+  return target;
 }
 
 /** Wraps a {@link DiagramDefinitionV13} so that v12's render pipeline can draw it. */
@@ -114,12 +117,14 @@ export function fromDefinitionV13(definition: DiagramDefinitionV13): DiagramDefi
     // v13 diagrams style their SVG themselves.
     styles: () => '',
     renderer: {
-      draw: (_text: string, id: string, version: string, diagram: Diagram) => {
+      draw: async (text: string, id: string, version: string, diagram: Diagram) => {
         const { parsed } = diagram.db as DiagramV13DB;
         if (!parsed) {
           throw new Error(`The ${definition.id} diagram was drawn before it was parsed`);
         }
         const { result, config, limits } = parsed;
+        // Only load the math plugin for a diagram that may have math, as v12 does.
+        const math = text.includes('$$') ? await mathV13(config) : undefined;
         const ctx: RenderContext = {
           config,
           measurer: selectMeasurer(),
@@ -134,6 +139,7 @@ export function fromDefinitionV13(definition: DiagramDefinitionV13): DiagramDefi
             throw new Error(`The ${definition.id} diagram has no graph layout`);
           },
           warn,
+          inline: inlineSpans(math ? [math.provider] : [], warn),
         };
         const runs: ExtensionRun[] = getExtensionsV13().map((extension) => ({
           extension,
@@ -148,7 +154,8 @@ export function fromDefinitionV13(definition: DiagramDefinitionV13): DiagramDefi
         definition.render(result.model, layout, ctx, w);
         const svg = w.finish();
         checkOutput(svg, limits);
-        mountSvg(id, svg);
+        const mounted = mountSvg(id, svg);
+        math?.mount(mounted);
         diagram.db.bindFunctions = afterMountHooks(runs, { svg });
       },
     },
