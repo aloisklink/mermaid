@@ -102,6 +102,11 @@ describe('DiagramDefinitionV13', () => {
     }
   });
 
+  it.each(['1abc', 'a:b'])('renders with the id %s, which is not a CSS identifier', async (id) => {
+    const { svg } = await mermaid.render(id, 'boxesV13\nx');
+    expect(new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement.id).toBe(id);
+  });
+
   it("paints with v12's theme variables", async () => {
     const { svg } = await mermaid.render(
       'v13-theme',

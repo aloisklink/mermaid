@@ -515,9 +515,9 @@ const renderDiagram = async function (
 
   const idSelector = `#${escapeCssIdentifier(id)}` as const;
   const iFrameID = 'i' + id;
-  const iFrameID_selector = '#' + iFrameID;
+  const iFrameID_selector = `#${escapeCssIdentifier(iFrameID)}`;
   const enclosingDivID = 'd' + id;
-  const enclosingDivID_selector = '#' + enclosingDivID;
+  const enclosingDivID_selector = `#${escapeCssIdentifier(enclosingDivID)}`;
 
   const removeTempElements = () => {
     // -------------------------------------------------------------------------------
@@ -648,7 +648,7 @@ const renderDiagram = async function (
   const serializeSvg = (): string => {
     // -------------------------------------------------------------------------------
     // Clean up SVG code
-    root.select(`[id="${id}"]`).selectAll('foreignobject > *').attr('xmlns', XMLNS_XHTML_STD);
+    root.select(idSelector).selectAll('foreignobject > *').attr('xmlns', XMLNS_XHTML_STD);
 
     // Fix for when the base tag is used
     let code: string = root.select<HTMLDivElement>(enclosingDivID_selector).node()!.innerHTML;

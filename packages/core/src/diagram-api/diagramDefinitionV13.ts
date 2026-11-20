@@ -76,7 +76,7 @@ function mountSvg(id: string, markup: string): void {
     ['title', 'aria-labelledby'],
     ['desc', 'aria-describedby'],
   ] as const) {
-    const element = target.querySelector(`:scope > ${tag}`);
+    const element = [...target.children].find((child) => child.tagName.toLowerCase() === tag);
     if (element) {
       element.id = `chart-${tag}-${id}`;
       target.setAttribute(aria, element.id);
