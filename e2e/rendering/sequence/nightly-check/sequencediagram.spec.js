@@ -104,6 +104,7 @@ test.describe('Sequence diagram', () => {
       `,
         {
           logLevel: 0,
+          securityLevel: 'loose',
           sequence: { mirrorActors: true, noteFontSize: 18, noteFontFamily: 'Arial' },
         }
       );
@@ -131,6 +132,7 @@ test.describe('Sequence diagram', () => {
       `,
         {
           logLevel: 0,
+          securityLevel: 'loose',
           sequence: { mirrorActors: false, noteFontSize: 18, noteFontFamily: 'Arial' },
         }
       );

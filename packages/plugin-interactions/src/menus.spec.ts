@@ -27,6 +27,7 @@ afterEach(() => FakeResizeObserver.live.clear());
 beforeAll(async () => {
   await mermaid.registerExternalDiagrams([menuDefinition]);
   mermaid.registerPlugins(plugins);
+  mermaid.initialize({ securityLevel: 'loose' });
 });
 
 async function render(menus: readonly unknown[], front = '', participants?: string[]) {
@@ -187,7 +188,7 @@ describe('element menus (R-PLUG-9, D105)', () => {
     expect(dom.links(dom.menus()[0]!).map(([l]) => l)).toEqual(['2', '10', 'Docs', 'b']);
   });
 
-  it('honours securityLevel strict and stricter', async () => {
+  it('draws menus only with securityLevel loose, with v13 link rules', async () => {
     const links = { Web: 'https://example.com', Rel: './page', Tel: 'tel:123' };
     // v12 allowed any scheme but javascript:, data: and vbscript:; v13 allows these only.
     const r = await render([{ target: 'P', links }]);
@@ -198,16 +199,16 @@ describe('element menus (R-PLUG-9, D105)', () => {
       ['Rel', './page'],
       ['Tel', 'about:blank'],
     ]);
-    mermaid.initialize({ securityLevel: 'stricter' });
     try {
-      const s = await render([{ target: 'P', links }]);
-      const sd = mounted(s.svg);
-      s.bindFunctions!(sd.el);
-      expect(sd.links(sd.menus()[0]!).filter(([, h]) => h !== 'about:blank')).toEqual([
-        ['Rel', './page'],
-      ]);
+      for (const securityLevel of ['strict', 'stricter', 'antiscript'] as const) {
+        mermaid.initialize({ securityLevel });
+        const s = await render([{ target: 'P', links }]);
+        const sd = mounted(s.svg);
+        s.bindFunctions!(sd.el);
+        expect(sd.menus()).toEqual([]);
+      }
     } finally {
-      mermaid.initialize({ securityLevel: 'strict' });
+      mermaid.initialize({ securityLevel: 'loose' });
     }
   });
 

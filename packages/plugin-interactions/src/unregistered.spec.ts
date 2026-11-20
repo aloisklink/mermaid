@@ -20,6 +20,7 @@ const SEQ = [
 
 beforeAll(async () => {
   await mermaid.registerExternalDiagrams([sequence]);
+  mermaid.initialize({ securityLevel: 'loose' });
 });
 
 describe('without the plugin', () => {

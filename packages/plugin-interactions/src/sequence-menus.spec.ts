@@ -29,6 +29,7 @@ const SEQ = [
 beforeAll(async () => {
   await mermaid.registerExternalDiagrams([sequence]);
   mermaid.registerPlugins(plugins);
+  mermaid.initialize({ securityLevel: 'loose' });
 });
 
 const render = (text: string) => renderText('d', text);

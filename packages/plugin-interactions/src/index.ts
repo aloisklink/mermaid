@@ -35,6 +35,8 @@ export const interactions: ExtensionPluginV13['extension'] = {
   id: 'interactions',
   claims: FEATURES.map((f) => f.claim),
   postParse(ast, ctx) {
+    // As in v12, menus need `securityLevel: 'loose'` (here forced menus do too).
+    if (ctx.securityLevel !== 'loose') return ast;
     const collected = FEATURES.map((f) => f.start(ctx));
     walk(ast, (node) => {
       const fields = node as unknown as Record<string, unknown>;

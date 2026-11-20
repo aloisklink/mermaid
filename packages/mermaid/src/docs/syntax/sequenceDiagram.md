@@ -756,9 +756,9 @@ sequenceDiagram
     Alice-)John: See you later!
 ```
 
-Click an actor to open or close its menu. Unlike v12, each menu is an HTML `div.actorPopupMenu` placed after the diagram's `<svg>`, with `data-menu-for` set to the actor's id. Because it is outside the SVG, it is missing from the SVG markup and exported images, and it is not shown with `securityLevel: 'sandbox'`. Menus also do not follow the diagram's theme.
+Menus are only drawn with `securityLevel: 'loose'`. Click an actor to open or close its menu. Unlike v12, each menu is an HTML `div.actorPopupMenu` placed after the diagram's `<svg>`, with `data-menu-for` set to the actor's id. Because it is outside the SVG, it is missing from the SVG markup and exported images. Menus also do not follow the diagram's theme.
 
-Menu links must be `http`, `https`, `mailto` or relative (only relative with `securityLevel: 'stricter'`). Any other link becomes `about:blank`.
+Menu links must be `http`, `https`, `mailto` or relative. Any other link becomes `about:blank`.
 
 `mermaid.run` adds the menus. After `mermaid.render`, call the returned `bindFunctions(element)` on the element that holds the SVG.
 
