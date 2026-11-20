@@ -78,7 +78,7 @@ describe('DiagramDefinitionV13', () => {
     expect(diagramType).toBe('boxesV13');
     const root = new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement;
     expect(root.id).toBe('v13-test');
-    expect(root.getAttribute('class')).toBe('mermaid mermaid-boxesV13');
+    expect(root.getAttribute('class')).toBe('mermaid-boxesV13');
     expect(root.getAttribute('viewBox')).toBe('0 0 200 50');
     expect(root.querySelector('style')?.textContent).toContain('#v13-test');
     expect([...root.querySelectorAll('text')].map((t) => t.textContent)).toEqual([
@@ -86,6 +86,20 @@ describe('DiagramDefinitionV13', () => {
       'second',
     ]);
     expect(root.querySelector('#v13-test-box-1')).not.toBeNull();
+  });
+
+  it('leaves the drawn diagram alone when `mermaid.run` runs again', async () => {
+    const pre = document.createElement('pre');
+    pre.className = 'mermaid';
+    pre.textContent = 'boxesV13\nfirst';
+    document.body.append(pre);
+    try {
+      await mermaid.run();
+      await mermaid.run();
+      expect([...pre.querySelectorAll('text')].map((t) => t.textContent)).toEqual(['first']);
+    } finally {
+      pre.remove();
+    }
   });
 
   it("paints with v12's theme variables", async () => {

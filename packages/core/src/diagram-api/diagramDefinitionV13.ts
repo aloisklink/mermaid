@@ -59,6 +59,8 @@ function mountSvg(id: string, markup: string): void {
   for (const { name, value } of source.attributes) {
     target.setAttribute(name, value);
   }
+  // Drop v13's `mermaid` class, or a later `mermaid.run()` would render this <svg> as diagram text.
+  target.classList.remove('mermaid');
   target.setAttribute('id', id);
   // Keep v12's <style>, drop its empty <g>.
   for (const child of [...target.children]) {
