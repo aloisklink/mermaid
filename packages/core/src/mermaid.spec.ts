@@ -204,10 +204,10 @@ describe('when using mermaid and ', () => {
         'Bob-->Alice: Feel sick...\n' +
         'end';
       await expect(mermaid.parse(text)).rejects.toThrowErrorMatchingInlineSnapshot(`
-        [Error: Parse error on line 2:
-        ...equenceDiagramAlice:->Bob: Hello Bob, h...
-        ----------------------^
-        Expecting '()', 'SOLID_OPEN_ARROW', 'DOTTED_OPEN_ARROW', 'SOLID_ARROW', 'SOLID_ARROW_TOP', 'SOLID_ARROW_BOTTOM', 'STICK_ARROW_TOP', 'STICK_ARROW_BOTTOM', 'SOLID_ARROW_TOP_DOTTED', 'SOLID_ARROW_BOTTOM_DOTTED', 'STICK_ARROW_TOP_DOTTED', 'STICK_ARROW_BOTTOM_DOTTED', 'SOLID_ARROW_TOP_REVERSE', 'SOLID_ARROW_BOTTOM_REVERSE', 'STICK_ARROW_TOP_REVERSE', 'STICK_ARROW_BOTTOM_REVERSE', 'SOLID_ARROW_TOP_REVERSE_DOTTED', 'SOLID_ARROW_BOTTOM_REVERSE_DOTTED', 'STICK_ARROW_TOP_REVERSE_DOTTED', 'STICK_ARROW_BOTTOM_REVERSE_DOTTED', 'BIDIRECTIONAL_SOLID_ARROW', 'DOTTED_ARROW', 'BIDIRECTIONAL_DOTTED_ARROW', 'SOLID_CROSS', 'DOTTED_CROSS', 'SOLID_POINT', 'DOTTED_POINT', got 'TXT']
+        [MermaidError: Error at line 2, column 6: Expected an arrow such as \`->>\`, got \`:->Bob: Hello Bob, how a…\`; write a message as \`<from><arrow><to>: <text>\`, e.g. \`Alice->>Bob: Hello\`.
+        2 | Alice:->Bob: Hello Bob, how are you?
+          |      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        Expected: an arrow such as \`->>\`]
       `);
     });
 

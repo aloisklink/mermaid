@@ -9,10 +9,17 @@ import type { MermaidConfig } from './config.type.js';
 import { detectType, detectors, registerLazyLoadedDiagrams } from './diagram-api/detectType.js';
 import { addDiagrams } from './diagram-api/diagram-orchestration.js';
 import { loadRegisteredDiagrams } from './diagram-api/loadDiagram.js';
-import type { ExternalDiagramDefinition, SVG, SVGGroup } from './diagram-api/types.js';
-import type { Katex } from './diagrams/common/common.js';
-import { registerKatex } from './diagrams/common/common.js';
+import type {
+  AnyExternalDiagramDefinition,
+  ExternalDiagramDefinition,
+  ExternalDiagramDefinitionV13,
+  SVG,
+  SVGGroup,
+} from './diagram-api/types.js';
+import type { MathRenderer } from './diagrams/common/common.js';
 import type { ParseErrorFunction } from './Diagram.js';
+import type { ExtensionPluginV13, MathPlugin, MermaidPlugin } from './plugins.js';
+import { registerPlugins } from './plugins.js';
 import type { UnknownDiagramError } from './errors.js';
 import type { InternalHelpers } from './internals.js';
 import { log } from './logger.js';
@@ -25,15 +32,20 @@ import type { DetailedError } from './utils.js';
 import utils, { isDetailedError } from './utils.js';
 
 export type {
+  AnyExternalDiagramDefinition,
   AsyncIconLoader,
   DetailedError,
+  ExtensionPluginV13,
   ExternalDiagramDefinition,
+  ExternalDiagramDefinitionV13,
   IconLoader,
   InternalHelpers,
-  Katex,
   LayoutData,
   LayoutLoaderDefinition,
+  MathPlugin,
+  MathRenderer,
   MermaidConfig,
+  MermaidPlugin,
   ParseErrorFunction,
   ParseOptions,
   ParseResult,
@@ -251,11 +263,11 @@ const init = async function (
 
 /**
  * Used to register external diagram types.
- * @param diagrams - Array of {@link ExternalDiagramDefinition}.
+ * @param diagrams - Array of {@link ExternalDiagramDefinition} or {@link ExternalDiagramDefinitionV13}.
  * @param opts - If opts.lazyLoad is false, the diagrams will be loaded immediately.
  */
 const registerExternalDiagrams = async (
-  diagrams: ExternalDiagramDefinition[],
+  diagrams: AnyExternalDiagramDefinition[],
   {
     lazyLoad = true,
   }: {
@@ -449,7 +461,7 @@ export interface Mermaid {
   init: typeof init;
   run: typeof run;
   registerLayoutLoaders: typeof registerLayoutLoaders;
-  registerKatex: typeof registerKatex;
+  registerPlugins: typeof registerPlugins;
   registerExternalDiagrams: typeof registerExternalDiagrams;
   initialize: typeof initialize;
   contentLoaded: typeof contentLoaded;
@@ -468,7 +480,7 @@ const mermaid: Mermaid = {
   run,
   registerExternalDiagrams,
   registerLayoutLoaders,
-  registerKatex,
+  registerPlugins,
   initialize,
   parseError: undefined,
   contentLoaded,

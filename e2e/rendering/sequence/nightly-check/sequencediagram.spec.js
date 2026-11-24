@@ -46,9 +46,8 @@ test.describe('Sequence diagram', () => {
   });
 
   test.describe('links', () => {
-    // Not convertible even ignoring the assertions below: this test .click()s
-    // an element twice to toggle a popup open/closed, which is interactive
-    // behavior a static screenshot fixture can't express.
+    // Clicks the actor twice to toggle its HTML menu open and shut, which a
+    // static screenshot fixture can't express.
     test('should support actor links', async ({ page }, testInfo) => {
       await renderGraph(
         page,
@@ -64,10 +63,18 @@ test.describe('Sequence diagram', () => {
       `,
         { securityLevel: 'loose' }
       );
-      await page.locator('#root-0').click();
-      await expect(page.locator('#actor0_popup')).toHaveAttribute('style', 'display: block;');
-      await page.locator('#root-0').click();
-      await expect(page.locator('#actor0_popup')).toHaveAttribute('style', 'display: none;');
+      const actor = page.locator('svg g.actor-top[data-id="Alice"]');
+      const menu = page.locator('div.actorPopupMenu[data-menu-for="Alice"]');
+      await expect(menu).toBeHidden();
+      await actor.click();
+      await expect(menu).toBeVisible();
+      await expect(menu.locator('a')).toHaveText(['Dashboard', 'Wiki']);
+      await expect(menu.locator('a').first()).toHaveAttribute(
+        'href',
+        'https://dashboard.contoso.com/alice'
+      );
+      await actor.click();
+      await expect(menu).toBeHidden();
     });
 
     // The %%{init}%% directive (forceMenus / hideUnusedParticipants) overrides the
@@ -97,6 +104,7 @@ test.describe('Sequence diagram', () => {
       `,
         {
           logLevel: 0,
+          securityLevel: 'loose',
           sequence: { mirrorActors: true, noteFontSize: 18, noteFontFamily: 'Arial' },
         }
       );
@@ -124,6 +132,7 @@ test.describe('Sequence diagram', () => {
       `,
         {
           logLevel: 0,
+          securityLevel: 'loose',
           sequence: { mirrorActors: false, noteFontSize: 18, noteFontFamily: 'Arial' },
         }
       );

@@ -12,12 +12,16 @@
 
 ## Interfaces
 
+- [AnyExternalDiagramDefinition](interfaces/AnyExternalDiagramDefinition.md)
 - [AsyncIconLoader](interfaces/AsyncIconLoader.md)
 - [DetailedError](interfaces/DetailedError.md)
+- [ExtensionPluginV13](interfaces/ExtensionPluginV13.md)
 - [ExternalDiagramDefinition](interfaces/ExternalDiagramDefinition.md)
-- [Katex](interfaces/Katex.md)
+- [ExternalDiagramDefinitionV13](interfaces/ExternalDiagramDefinitionV13.md)
 - [LayoutData](interfaces/LayoutData.md)
 - [LayoutLoaderDefinition](interfaces/LayoutLoaderDefinition.md)
+- [MathPlugin](interfaces/MathPlugin.md)
+- [MathRenderer](interfaces/MathRenderer.md)
 - [Mermaid](interfaces/Mermaid.md)
 - [MermaidConfig](interfaces/MermaidConfig.md)
 - [ParseOptions](interfaces/ParseOptions.md)
@@ -32,6 +36,7 @@
 
 - [IconLoader](type-aliases/IconLoader.md)
 - [InternalHelpers](type-aliases/InternalHelpers.md)
+- [MermaidPlugin](type-aliases/MermaidPlugin.md)
 - [ParseErrorFunction](type-aliases/ParseErrorFunction.md)
 - [SVG](type-aliases/SVG.md)
 - [SVGGroup](type-aliases/SVGGroup.md)

@@ -79,7 +79,7 @@ jobs:
           # `tiny` was never attempted while `layout-elk` was being refused —
           # its own publishability stayed unknown across every failed run.
           failed=''
-          for pkg in $(cd packages && ls -d diagram-*) mermaid-layout-cose-bilkent mermaid-layout-elk plugin-katex tiny; do
+          for pkg in $(cd packages && ls -d diagram-*) mermaid-layout-cose-bilkent mermaid-layout-elk plugin-interactions plugin-katex tiny; do
             (
               cd "packages/$pkg"
               npm version --no-git-tag-version --allow-same-version "$VERSION"

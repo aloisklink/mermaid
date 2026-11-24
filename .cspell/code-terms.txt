@@ -70,6 +70,7 @@ GENERICTYPE
 grammr
 graphtype
 halign
+hhea
 iife
 instrumenter
 interp
@@ -80,6 +81,7 @@ JDBC
 jison
 Kaufmann
 keyify
+kinsoku
 LABELPOS
 LABELTYPE
 layoutstop
@@ -107,6 +109,8 @@ NODECOUNT
 NODIR
 nonterminal
 NSTR
+oklab
+oklch
 outbase
 outdir
 Qcontrolx
@@ -128,6 +132,7 @@ sequencenumber
 shrc
 Siebenhaller
 signaltype
+SMIL
 someclass
 SPACELINE
 SPACELIST

@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it, vi } from 'vitest';
 import { renderKatexSanitized } from '@mermaid-js/core/diagrams/common/common.js';
+import { getExtensionsV13 } from '@mermaid-js/core/plugins.js';
 import { getLayoutLoaderDefinition } from '@mermaid-js/core/rendering-util/render.js';
 import coseBilkentLayouts from '@mermaid-js/layout-cose-bilkent';
 import elkLayouts from '@mermaid-js/layout-elk';
@@ -25,6 +26,10 @@ const LARGE_DIAGRAMS = ['architecture', 'flowchartElk', 'mindmap'];
 describe('mermaid', () => {
   it.each([...coseBilkentLayouts, ...elkLayouts])('registers the $name layout', (layout) => {
     expect(getLayoutLoaderDefinition(layout.name)).toBe(layout);
+  });
+
+  it('registers the interactions plugin', () => {
+    expect(getExtensionsV13().map(({ id }) => id)).toEqual(['interactions']);
   });
 
   it('registers KaTeX', async () => {

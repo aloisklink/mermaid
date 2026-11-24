@@ -128,7 +128,7 @@ Your own `clear()` should call `commonClear()` as well as resetting your own fie
 ## Step 3: The renderer
 
 Write a renderer that draws the diagram from what the db holds. `usecaseRenderer.ts` is a good
-starting point, and `sequenceRenderer.js` is a more generic older example than the flowchart
+starting point, and `journeyRenderer.ts` is a more generic older example than the flowchart
 renderer. The renderer belongs in your diagram folder.
 
 Two things are easy to miss and both get flagged in review.

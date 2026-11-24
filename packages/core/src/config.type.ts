@@ -310,7 +310,7 @@ export interface MermaidConfig {
   /**
    * Level of trust for parsed diagram
    */
-  securityLevel?: 'strict' | 'loose' | 'antiscript' | 'sandbox';
+  securityLevel?: 'strict' | 'stricter' | 'loose' | 'antiscript' | 'sandbox';
   /**
    * Dictates whether mermaid starts on Page load
    */

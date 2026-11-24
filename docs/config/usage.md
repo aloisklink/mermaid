@@ -178,13 +178,14 @@ A `securityLevel` configuration has to first be cleared. `securityLevel` sets th
 
 ## securityLevel
 
-| Parameter     | Description                       | Type   | Required | Values                                     |
-| ------------- | --------------------------------- | ------ | -------- | ------------------------------------------ |
-| securityLevel | Level of trust for parsed diagram | String | Optional | 'sandbox', 'strict', 'loose', 'antiscript' |
+| Parameter     | Description                       | Type   | Required | Values                                                 |
+| ------------- | --------------------------------- | ------ | -------- | ------------------------------------------------------ |
+| securityLevel | Level of trust for parsed diagram | String | Optional | 'sandbox', 'strict', 'stricter', 'loose', 'antiscript' |
 
 Values:
 
 - **strict**: (**default**) HTML tags in the text are encoded and click functionality is disabled.
+- **stricter**: Like `strict`, but links and images must be relative URLs (images may also be PNG, JPEG, GIF or WebP `data:` URLs). For now, every diagram treats it as `strict`.
 - **antiscript**: HTML tags in text are allowed (only script elements are removed) and click functionality is enabled.
 - **loose**: HTML tags in text are allowed and click functionality is enabled.
 - **sandbox**: With this security level, all rendering takes place in a sandboxed iframe. This prevents any JavaScript from running in the context. This may hinder interactive functionality of the diagram, like scripts, popups in the sequence diagram, links to other tabs or targets, etc.

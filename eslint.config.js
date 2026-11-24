@@ -273,15 +273,25 @@ export default tseslint.config(
     },
   },
   {
-    // The `layered` engine is ported nearly verbatim from mermaid-v13 so later v13 fixes can be
-    // brought over by hand. It is written for `noUncheckedIndexedAccess` (hence the `!` reads)
-    // and in v13's style, so these style-only rules are relaxed here.
-    files: ['packages/core/src/rendering-util/layout-algorithms/layered/**/*.ts'],
+    // Code ported nearly verbatim from mermaid-v13 so later v13 fixes can be brought over by
+    // hand. It is written for `noUncheckedIndexedAccess` (hence the `!` reads) and in v13's
+    // style, so these rules, which v13 does not use, are relaxed here.
+    files: [
+      'packages/core/src/rendering-util/layout-algorithms/layered/**/*.ts',
+      'packages/core/src/v13/**/*.ts',
+      'packages/diagram-sequence/src/**/*.ts',
+      'packages/plugin-interactions/src/**/*.ts',
+    ],
     rules: {
       curly: 'off',
       '@typescript-eslint/no-unnecessary-type-assertion': 'off',
       '@typescript-eslint/no-confusing-non-null-assertion': 'off',
+      '@typescript-eslint/non-nullable-type-assertion-style': 'off',
+      // v13 calls `String()` on unknown values on purpose (as js-yaml does for keys).
+      '@typescript-eslint/no-base-to-string': 'off',
       '@typescript-eslint/prefer-optional-chain': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
+      'unicorn/better-regex': 'off',
       'unicorn/no-for-loop': 'off',
       'unicorn/prefer-spread': 'off',
     },

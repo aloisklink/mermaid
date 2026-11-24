@@ -6,7 +6,7 @@
 
 ```js
 import mermaid from 'mermaid';
-import loadKatex from '@mermaid-js/plugin-katex';
+import katexPlugins from '@mermaid-js/plugin-katex';
 
-mermaid.registerKatex(loadKatex);
+mermaid.registerPlugins(katexPlugins);
 ```

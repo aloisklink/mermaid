@@ -19,6 +19,7 @@
     "packages/diagram-*/src",
     "packages/mermaid-layout-cose-bilkent/src",
     "packages/mermaid-layout-elk/src",
+    "packages/plugin-interactions/src",
     "packages/plugin-katex/src"
   ]
 }

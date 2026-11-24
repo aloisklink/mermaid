@@ -1,6 +1,7 @@
 import { select } from 'd3';
 import { getConfig } from '../diagram-api/diagramAPI.js';
 import type { HTML, SVG } from '../diagram-api/types.js';
+import { escapeCssIdentifier } from './rendering-elements/edgeStepAnimation.js';
 
 /**
  * Selects the SVG element using {@link id}.
@@ -13,10 +14,10 @@ export const selectSvgElement = (id: string): SVG => {
   // handle root and document for when rendering in sandbox mode
   let root: HTML = select('body');
   if (securityLevel === 'sandbox') {
-    const sandboxElement: HTML = select(`#i${id}`);
+    const sandboxElement: HTML = select(`#${escapeCssIdentifier(`i${id}`)}`);
     const doc: Document = sandboxElement.node()?.contentDocument ?? document;
     root = select(doc.body as HTMLIFrameElement);
   }
-  const svg: SVG = root.select(`#${id}`);
+  const svg: SVG = root.select(`#${escapeCssIdentifier(id)}`);
   return svg;
 };

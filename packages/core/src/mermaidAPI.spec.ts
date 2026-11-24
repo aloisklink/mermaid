@@ -1339,8 +1339,10 @@ flowchart TB
       // Since sequenceDiagram will return new Db object each time, we can compare the db to be different.
       expect(sequenceDiagram1.db).not.toBe(sequenceDiagram2.db);
       expect([sequenceDiagram1.type, sequenceDiagram2.type]).toEqual(['sequence', 'sequence']);
-      const actorsOf = (db: unknown) => (db as { getActors(): unknown }).getActors();
-      expect(actorsOf(sequenceDiagram1.db)).not.toEqual(actorsOf(sequenceDiagram2.db));
+      const participantsOf = (db: unknown) =>
+        (db as { parsed: { result: { model: { participants: unknown } } } }).parsed.result.model
+          .participants;
+      expect(participantsOf(sequenceDiagram1.db)).not.toEqual(participantsOf(sequenceDiagram2.db));
     });
   });
 

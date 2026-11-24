@@ -1,0 +1,45 @@
+import type {
+  DiagramParseContext,
+  DiagramPlugin,
+  RenderContext,
+} from '@mermaid-js/core/v13/index.js';
+import type { SvgWriter } from '@mermaid-js/core/v13/svg/index.js';
+import { resolveLimits } from '@mermaid-js/core/v13/limits/index.js';
+import type { SequenceModel } from './model.js';
+import { layoutSequence, type SequenceLayout } from './layout/index.js';
+import { detectSequence, parseSequence, type SequenceParseResult } from './parser/index.js';
+import { renderSequence } from './render/index.js';
+import { sequenceLabels } from './labels.js';
+import { theme } from './theme/table.js';
+
+/**
+ * The sequence diagram plugin (DESIGN §12.1, spec #125): `layoutKind: 'custom'` with its own
+ * `SequenceLayout`. `parse` takes the whole source; `layout` measures and places everything;
+ * `render` writes the whole `<svg>` document into the writer. `sequenceDetector.ts` loads it.
+ */
+export const sequence = {
+  id: 'sequence',
+  // v13's text output (`ascii`) is not ported.
+  formats: ['svg'] as const,
+  layoutKind: 'custom' as const,
+  detector: (text: string): boolean => detectSequence(text),
+  parse: (text: string, ctx: DiagramParseContext): SequenceParseResult => {
+    const caps = ctx.limits ?? resolveLimits(ctx.config);
+    const result = parseSequence(text, {
+      preprocessed: ctx.preprocessed,
+      maxEdges: caps.maxEdges,
+      maxNodes: caps.maxNodes,
+      maxDepth: caps.maxDepth,
+    });
+    // Use the front-matter title unless the diagram has a `title` statement, as v12 does.
+    const title = ctx.preprocessed.frontMatter?.title;
+    return title === undefined || result.model.title !== undefined
+      ? result
+      : { ...result, model: { ...result.model, title } };
+  },
+  labels: sequenceLabels,
+  layout: (model: SequenceModel, ctx: RenderContext): SequenceLayout => layoutSequence(model, ctx),
+  render: (model: SequenceModel, layout: SequenceLayout, ctx: RenderContext, w: SvgWriter): void =>
+    renderSequence(model, layout, ctx, w),
+  theme,
+} satisfies DiagramPlugin<SequenceModel, SequenceLayout>;

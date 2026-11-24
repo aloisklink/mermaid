@@ -695,19 +695,9 @@ importers:
 
   packages/diagram-sequence:
     dependencies:
-      '@braintree/sanitize-url':
-        specifier: ^7.1.2
-        version: 7.1.2
       '@mermaid-js/core':
         specifier: workspace:^
         version: link:../core
-      d3:
-        specifier: ^7.9.0
-        version: 7.9.0
-    devDependencies:
-      '@types/d3':
-        specifier: ^7.4.3
-        version: 7.4.3
 
   packages/diagram-state:
     dependencies:
@@ -947,6 +937,9 @@ importers:
       '@mermaid-js/layout-elk':
         specifier: workspace:^
         version: link:../mermaid-layout-elk
+      '@mermaid-js/plugin-interactions':
+        specifier: workspace:^
+        version: link:../plugin-interactions
       '@mermaid-js/plugin-katex':
         specifier: workspace:^
         version: link:../plugin-katex
@@ -1216,6 +1209,16 @@ importers:
         specifier: ~4.4.0
         version: 4.4.0
 
+  packages/plugin-interactions:
+    dependencies:
+      '@mermaid-js/core':
+        specifier: workspace:^
+        version: link:../core
+    devDependencies:
+      '@mermaid-js/diagram-sequence':
+        specifier: workspace:^
+        version: link:../diagram-sequence
+
   packages/plugin-katex:
     dependencies:
       '@mermaid-js/core':
@@ -1320,6 +1323,9 @@ importers:
       '@mermaid-js/diagram-xychart':
         specifier: workspace:^
         version: link:../diagram-xychart
+      '@mermaid-js/plugin-interactions':
+        specifier: workspace:^
+        version: link:../plugin-interactions
 
   tests/release-verification:
     devDependencies:

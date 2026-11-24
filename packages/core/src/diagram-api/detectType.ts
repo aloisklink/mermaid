@@ -3,8 +3,8 @@ import { log } from '../logger.js';
 import type {
   DetectorRecord,
   DiagramDetector,
-  DiagramLoader,
-  ExternalDiagramDefinition,
+  AnyDiagramLoader,
+  AnyExternalDiagramDefinition,
 } from './types.js';
 import { directiveRegex, matchFrontMatter, stripAnyComments } from './regexes.js';
 import { UnknownDiagramError } from '../errors.js';
@@ -63,13 +63,13 @@ export const detectType = function (text: string, config?: MermaidConfig): strin
  *
  * @param diagrams - Diagrams to lazy load, and their detectors, in order of importance.
  */
-export const registerLazyLoadedDiagrams = (...diagrams: ExternalDiagramDefinition[]) => {
+export const registerLazyLoadedDiagrams = (...diagrams: AnyExternalDiagramDefinition[]) => {
   for (const { id, detector, loader } of diagrams) {
     addDetector(id, detector, loader);
   }
 };
 
-export const addDetector = (key: string, detector: DiagramDetector, loader?: DiagramLoader) => {
+export const addDetector = (key: string, detector: DiagramDetector, loader?: AnyDiagramLoader) => {
   if (detectors[key]) {
     log.warn(`Detector with key ${key} already exists. Overwriting.`);
   }

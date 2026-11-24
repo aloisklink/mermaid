@@ -5,9 +5,20 @@ import {
   countOccurrence,
   hasBreaks,
   splitBreaks,
-  registerKatex,
+  setMathRendererLoader,
   renderKatexSanitized,
 } from './common.js';
+
+describe('when securityLevel is stricter', () => {
+  it('sanitizes labels as strict does', () => {
+    const label = '<b>bold</b><script>alert(1)</script><a href="javascript:x()">x</a>';
+    const config = { htmlLabels: true } as const;
+    expect(sanitizeText(label, { ...config, securityLevel: 'stricter' })).toBe(
+      sanitizeText(label, { ...config, securityLevel: 'strict' })
+    );
+    expect(sanitizeText(label, { ...config, securityLevel: 'stricter' })).toContain('<b>bold</b>');
+  });
+});
 
 describe('when securityLevel is antiscript, all script must be removed', () => {
   /**
@@ -170,7 +181,7 @@ describe('renderKatexSanitized', () => {
   });
 
   it('renders math with the registered KaTeX', async () => {
-    registerKatex(() =>
+    setMathRendererLoader(() =>
       Promise.resolve({ renderToString: (tex, { output }) => `<math>${tex} ${output}</math>` })
     );
     expect(await renderKatexSanitized('$$x$$', config)).toContain('x htmlAndMathml');

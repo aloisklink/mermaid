@@ -30,6 +30,9 @@ import { usecase } from '@mermaid-js/diagram-usecase';
 import venn from '@mermaid-js/diagram-venn';
 import wardley from '@mermaid-js/diagram-wardley';
 import xychart from '@mermaid-js/diagram-xychart';
+import interactionsPlugins from '@mermaid-js/plugin-interactions';
+
+mermaid.registerPlugins(interactionsPlugins);
 
 // `diagrams.ts`'s list, in the same order, minus the large diagrams.
 void mermaid.registerExternalDiagrams([

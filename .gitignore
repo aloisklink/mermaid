@@ -61,6 +61,8 @@ vite.config.ts.timestamp-*
 
 # autogenereated by langium-cli
 generated/
+# Ported from mermaid-v13, where it is generated
+!packages/diagram-sequence/src/theme/generated/
 
 
 /CLAUDE.md
